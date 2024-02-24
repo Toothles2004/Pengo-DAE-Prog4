@@ -5,6 +5,11 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include "Minigin.h"
+
+#include <chrono>
+#include <thread>
+
+#include "GameTime.h"
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "Renderer.h"
@@ -82,13 +87,37 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
+	auto& time = GameTime::GetInstance();
 
 	// todo: this update loop could use some work.
+	//Game loop
 	bool doContinue = true;
+	float lag = 0.0f;
+
 	while (doContinue)
 	{
+		time.UpdateTime();
+		const auto startTime = std::chrono::high_resolution_clock::now();
+		
+		lag += time.GetFixedTimeStep();
+		
 		doContinue = input.ProcessInput();
-		sceneManager.Update();
+
+		while (lag >= time.GetFixedTimeStep())
+		{
+			sceneManager.FixedUpdate(time.GetFixedTimeStep());
+			lag -= time.GetFixedTimeStep();
+		}
+
+		sceneManager.Update(time.GetDeltaTime());
 		renderer.Render();
+
+		const auto sleepTime = startTime + std::chrono::milliseconds(time.GetMsPerFrame()) - std::chrono::high_resolution_clock::now();
+
+		std::this_thread::sleep_for(sleepTime);
 	}
+
+	//Make singleton time class?
+
+	//GameObject should have a renderComponent and its components should use the renderComponent
 }
