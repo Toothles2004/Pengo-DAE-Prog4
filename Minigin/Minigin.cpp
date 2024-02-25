@@ -88,8 +88,9 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
 	auto& time = GameTime::GetInstance();
+	time.SetFPS();
 
-	// todo: this update loop could use some work.
+
 	//Game loop
 	bool doContinue = true;
 	float lag = 0.0f;
@@ -105,19 +106,20 @@ void dae::Minigin::Run(const std::function<void()>& load)
 
 		while (lag >= time.GetFixedTimeStep())
 		{
-			sceneManager.FixedUpdate(time.GetFixedTimeStep());
+			sceneManager.FixedUpdate();
 			lag -= time.GetFixedTimeStep();
 		}
 
-		sceneManager.Update(time.GetDeltaTime());
+		sceneManager.Update();
+		sceneManager.LateUpdate();
 		renderer.Render();
+		sceneManager.DeleteGameObjects();
 
 		const auto sleepTime = startTime + std::chrono::milliseconds(time.GetMsPerFrame()) - std::chrono::high_resolution_clock::now();
 
-		std::this_thread::sleep_for(sleepTime);
+		if (sleepTime > std::chrono::milliseconds(0))
+		{
+			std::this_thread::sleep_for(sleepTime);
+		}
 	}
-
-	//Make singleton time class?
-
-	//GameObject should have a renderComponent and its components should use the renderComponent
 }
