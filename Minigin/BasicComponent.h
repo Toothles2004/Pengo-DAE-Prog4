@@ -20,7 +20,7 @@ public:
 	BasicComponent& operator=(const BasicComponent& other) = delete;
 	BasicComponent& operator=(BasicComponent&& other) = delete;
 
-private:
+protected:
 	dae::GameObject* m_pOwner;
 };
 
