@@ -11,9 +11,9 @@ public:
 	virtual void Update(){}
 	virtual void FixedUpdate(){}
 	virtual void LateUpdate(){}
-	virtual void Render(){}
+	virtual void Render() const {}
 
-	BasicComponent(dae::GameObject* owner);
+	explicit BasicComponent(dae::GameObject* owner);
 	virtual ~BasicComponent() = default;
 	BasicComponent(const BasicComponent& other) = delete;
 	BasicComponent(BasicComponent&& other) = delete;

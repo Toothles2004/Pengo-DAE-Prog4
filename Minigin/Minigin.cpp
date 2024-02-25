@@ -104,19 +104,23 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		
 		doContinue = input.ProcessInput();
 
+		//Accounts for slower machines by updating multiple times per frame
 		while (lag >= time.GetFixedTimeStep())
 		{
 			sceneManager.FixedUpdate();
 			lag -= time.GetFixedTimeStep();
 		}
 
+		//Update and render
 		sceneManager.Update();
 		sceneManager.LateUpdate();
 		renderer.Render();
 		sceneManager.DeleteGameObjects();
 
+		//Sleeps for the remaining time of the frame
 		const auto sleepTime = startTime + std::chrono::milliseconds(time.GetMsPerFrame()) - std::chrono::high_resolution_clock::now();
 
+		//Make sure sleep time isn't negative
 		if (sleepTime > std::chrono::milliseconds(0))
 		{
 			std::this_thread::sleep_for(sleepTime);

@@ -19,22 +19,42 @@ namespace dae
 		void Render() const;
 
 		template<typename T>
-		void RemoveComponent();
+		void RemoveComponent()
+		{
+			m_pComponents.erase(typeid(T));
+		}
 
 		template<typename T>
-		T* GetComponent();
+		std::weak_ptr<T> GetComponent()
+		{
+			if (const auto found = m_pComponents.find(typeid(T));
+				found != m_pComponents.end())
+			{
+				return std::static_pointer_cast<T>(found->second);
+			}
+
+			return std::weak_ptr<T>();
+		}
 
 		template <typename T>
-		bool HasComponent() const;
+		bool HasComponent() const
+		{
+			const auto it = m_pComponents.find(typeid(T));
+			return (it != m_pComponents.end());
+		}
 
 		template<typename T, typename... Args>
-		std::shared_ptr<T> AddComponent(Args&& ...);
+		std::shared_ptr<T> AddComponent(Args&& ... args)
+		{
+			static_assert(std::is_base_of<BasicComponent, T>::value, "T must derive from Component");
+
+			auto newComponent = std::make_shared<T>(this, args...);
+			m_pComponents.emplace(typeid(T), newComponent);
+			return newComponent;
+		}
 
 		void MarkForDeath() { m_ShouldDestroy = true; }
 		bool GetShouldDestroy() const { return m_ShouldDestroy; }
-
-		/*void SetTexture(const std::string& filename);
-		void SetPosition(float x, float y);*/
 
 		GameObject() = default;
 		~GameObject();
@@ -45,7 +65,8 @@ namespace dae
 
 	private:
 		bool m_ShouldDestroy = false;
+
+		//Can only have 1 component of each type
 		std::unordered_map<std::type_index, std::shared_ptr<BasicComponent>> m_pComponents{};
-		//std::shared_ptr<Texture2D> m_texture{};
 	};
 }
