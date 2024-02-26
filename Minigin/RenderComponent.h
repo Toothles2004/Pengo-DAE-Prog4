@@ -25,6 +25,6 @@ public:
 
 private:
     std::shared_ptr<dae::Texture2D> m_pTexture;
-    std::weak_ptr<TransformComponent> m_TransformComponent;
+    std::weak_ptr<TransformComponent> m_pTransformComponent;
 };
 
