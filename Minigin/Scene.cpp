@@ -60,13 +60,14 @@ void Scene::Render() const
 
 void Scene::DeleteGameObjects()
 {
-	for (const auto& object : m_pObjects)
-	{
-		if (object->GetShouldDestroy())
+	m_pObjects.erase(std::remove_if(
+		m_pObjects.begin(), 
+		m_pObjects.end(),
+		[](const std::shared_ptr<GameObject>& obj) 
 		{
-			Remove(object);
-		}
-	}
+			return obj->GetShouldDestroy();
+		}),
+		m_pObjects.end());
 }
 
 

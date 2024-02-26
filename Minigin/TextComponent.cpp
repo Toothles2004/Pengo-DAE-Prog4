@@ -3,26 +3,33 @@
 TextComponent::TextComponent(dae::GameObject* owner)
 	: BasicComponent(owner)
 {
-	m_font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	m_Font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+
+	if(owner->HasComponent<RenderComponent>() == false)
+	{
+		owner->AddComponent<RenderComponent>();
+	}
+
+	m_pRenderComponent = owner->GetComponent<RenderComponent>();
 }
 
 TextComponent::TextComponent(dae::GameObject* owner, const std::string& text)
-	: BasicComponent(owner)
+	: TextComponent(owner)
 {
 	SetText(text);
 }
 
 TextComponent::TextComponent(dae::GameObject* owner, const std::string& text, const std::shared_ptr<dae::Font>& font)
-	: BasicComponent(owner)
+	: TextComponent(owner)
 {
 	SetText(text, font);
 }
 
 void TextComponent::Update()
 {
-	if (m_needsUpdate)
+	if (m_NeedsUpdate)
 	{
-		const auto surf = TTF_RenderText_Blended(m_font->GetFont(), m_text.c_str(), m_Color);
+		const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), m_Text.c_str(), m_Color);
 		if (surf == nullptr)
 		{
 			throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
@@ -33,15 +40,16 @@ void TextComponent::Update()
 			throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
 		}
 		SDL_FreeSurface(surf);
-		m_textTexture = std::make_shared<dae::Texture2D>(texture);
+		m_TextTexture = std::make_shared<dae::Texture2D>(texture);
 
 		if (m_pOwner != nullptr)
 		{
 
-			if (const auto sharedPtr = m_pOwner->GetComponent<RenderComponent>().lock()) {
-				sharedPtr->SetTexture(m_textTexture);
+			if (const auto sharedPtr = m_pRenderComponent.lock()) 
+			{
+				sharedPtr->SetTexture(m_TextTexture);
 			}
-			m_needsUpdate = false;
+			m_NeedsUpdate = false;
 		}
 	}
 }
@@ -54,9 +62,9 @@ void TextComponent::SetText(const std::string& text)
 
 void TextComponent::SetText(const std::string& text, const std::shared_ptr<dae::Font>& font)
 {
-	m_text = text;
-	m_font = font;
-	m_needsUpdate = true;
+	m_Text = text;
+	m_Font = font;
+	m_NeedsUpdate = true;
 	if (m_pOwner != nullptr)
 	{
 		if (m_pOwner->HasComponent<RenderComponent>() == false)

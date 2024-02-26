@@ -1,6 +1,5 @@
 #pragma once
 #include <chrono>
-
 #include "Singleton.h"
 
 class GameTime final : public dae::Singleton<GameTime>
@@ -15,7 +14,6 @@ public:
 	static int GetMsPerFrame() { return m_MsPerFrame; }
 
 private:
-	friend class dae::Singleton<GameTime>;
 
 	inline static std::chrono::time_point<std::chrono::high_resolution_clock> m_LastTime = std::chrono::high_resolution_clock::now();
 	inline static float m_DeltaTime = 0.0f;

@@ -2,16 +2,18 @@
 #include "BasicComponent.h"
 #include "TextComponent.h"
 
-class FPSComponent : public TextComponent
+class FPSComponent : public BasicComponent
 {
 public:
-    using TextComponent::TextComponent;
+    explicit FPSComponent(dae::GameObject* owner);
 
     void Update() override;
 
 private:
-    float m_RefreshRate = 0.1f;
-    float m_Timer{ m_RefreshRate };
+    float m_RefreshRate;
+    float m_Timer;
+    float m_FrameCount;
+    std::weak_ptr<TextComponent> m_pTextComponent;
 
 };
 
