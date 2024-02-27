@@ -4,7 +4,7 @@
 #include "GameObject.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
-#include "TransformComponent.h"
+#include "BasicComponent.h"
 
 class RenderComponent : public BasicComponent
 {
@@ -25,6 +25,5 @@ public:
 
 private:
     std::shared_ptr<dae::Texture2D> m_pTexture;
-    std::weak_ptr<TransformComponent> m_pTransformComponent;
 };
 
