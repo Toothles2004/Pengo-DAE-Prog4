@@ -1,13 +1,11 @@
 #include "FPSComponent.h"
-
-#include "GameTime.h"
 #include "TextComponent.h"
 
 FPSComponent::FPSComponent(dae::GameObject* owner)
-	: BasicComponent(owner),
-	m_RefreshRate(1.f),
-	m_Timer(m_RefreshRate),
-	m_FrameCount()
+    : BasicComponent( owner ),
+    m_RefreshRate{ 1.f },
+    m_Timer{ m_RefreshRate },
+	m_FrameCount{}
 {
     if(owner->HasComponent<TextComponent>() == false)
     {

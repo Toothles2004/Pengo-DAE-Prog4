@@ -5,7 +5,6 @@
 #include "BasicComponent.h"
 #include "RenderComponent.h"
 #include "Renderer.h"
-#include "ResourceManager.h"
 #include "Font.h"
 #include "Texture2D.h"
 

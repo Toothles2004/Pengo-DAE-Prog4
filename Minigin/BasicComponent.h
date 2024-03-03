@@ -1,9 +1,7 @@
 #pragma once
 
-namespace dae
-{
-	class GameObject;
-}
+#include "GameObject.h"
+#include "GameTime.h"
 
 class BasicComponent
 {

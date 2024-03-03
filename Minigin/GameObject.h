@@ -56,20 +56,28 @@ namespace dae
 		void MarkForDeath() { m_ShouldDestroy = true; }
 		bool GetShouldDestroy() const { return m_ShouldDestroy; }
 
-		void SetParent(GameObject* parent, bool keepWorldPosition);
+		void SetLocalPosition(const glm::vec3& position);
+		void SetLocalRotation(const glm::vec3& rotation);
+		void SetLocalScale(const glm::vec3& scale);
+		void SetPositionDirty() { m_PositionIsDirty = true; }
+		void SetRotationDirty() { m_RotationIsDirty = true; }
+		void SetScaleDirty() { m_ScaleIsDirty = true; }
 
-		void SetPosition(const glm::vec3& position);
-		void SetRotation(const glm::vec3& rotation);
-		void SetScale(const glm::vec3& scale);
+		const glm::vec3& GetWorldPosition();
+		const glm::vec3& GetLocalPosition() const { return m_LocalPosition; }
+		const glm::vec3& GetWorldRotation();
+		const glm::vec3& GetLocalRotation() const { return m_LocalRotation; }
+		const glm::vec3& GetWorldScale();
+		const glm::vec3& GetLocalScale() const { return m_LocalScale; }
 
-		const glm::vec3& GetPosition() const { return m_Position; }
-		const glm::vec3& GetRotation() const { return m_Rotation; }
-		const glm::vec3& GetScale() const { return m_Scale; }
-
-		void Translate(const glm::vec3& translation);
 		void Rotate(const glm::vec3& rotation);
 		void Scale(const glm::vec3& scale);
 
+		void SetParent(GameObject* parent, bool keepWorldPosition);
+		GameObject* GetParent() const { return m_pParent; }
+		size_t GetChildCount() const { return m_pChildren.size(); }
+		GameObject* GetChildAt(unsigned int index) const;
+		bool IsChild(GameObject* pChild) const;
 
 		GameObject();
 		~GameObject();
@@ -79,11 +87,24 @@ namespace dae
 		GameObject& operator=(GameObject&& other) = delete;
 
 	private:
-		bool m_ShouldDestroy = false;
+		void UpdateWorldPosition();
+		void UpdateWorldRotation();
+		void UpdateWorldScale();
 
-		glm::vec3 m_Position;
-		glm::vec3 m_Rotation;
-		glm::vec3 m_Scale;
+		bool m_ShouldDestroy = false;
+		bool m_PositionIsDirty = false;
+		bool m_RotationIsDirty = false;
+		bool m_ScaleIsDirty = false;
+
+		glm::vec3 m_WorldPosition;
+		glm::vec3 m_LocalPosition;
+		glm::vec3 m_WorldRotation;
+		glm::vec3 m_LocalRotation;
+		glm::vec3 m_WorldScale;
+		glm::vec3 m_LocalScale;
+
+		GameObject* m_pParent = nullptr;
+		std::vector<GameObject*> m_pChildren{};
 
 		//Can only have 1 component of each type
 		std::unordered_map<std::type_index, std::shared_ptr<BasicComponent>> m_pComponents{};

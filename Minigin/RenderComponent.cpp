@@ -1,9 +1,9 @@
 #include "RenderComponent.h"
+#include "Renderer.h"
 
 RenderComponent::RenderComponent(dae::GameObject* owner)
     : BasicComponent(owner)
 {
-    //m_pTransform = owner->GetTransform();
 }
 
 RenderComponent::RenderComponent(dae::GameObject* owner, const std::shared_ptr<dae::Texture2D>& texture)
@@ -21,6 +21,6 @@ RenderComponent::RenderComponent(dae::GameObject* owner, const std::string& text
 void RenderComponent::Render() const
 {
     glm::vec3 position{ 0,0,0 };
-    position = m_pOwner->GetPosition();
+    position = m_pOwner->GetWorldPosition();
     dae::Renderer::GetInstance().RenderTexture(*m_pTexture, position.x, position.y);
 }
