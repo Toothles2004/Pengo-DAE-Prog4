@@ -114,6 +114,14 @@ void dae::GameObject::Render() const
 	}
 }
 
+void dae::GameObject::RenderImgui()
+{
+	for (const auto& component : m_pComponents)
+	{
+		component.second->RenderImgui();
+	}
+}
+
 void dae::GameObject::SetLocalPosition(const glm::vec3& position)
 {
 	m_LocalPosition = position;

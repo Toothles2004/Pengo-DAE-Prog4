@@ -17,6 +17,7 @@ namespace dae
 		void FixedUpdate();
 		void LateUpdate();
 		void Render() const;
+		void RenderImgui();
 
 		template<typename T>
 		void RemoveComponent()

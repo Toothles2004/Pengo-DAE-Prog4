@@ -33,6 +33,14 @@ void dae::SceneManager::Render()
 	}
 }
 
+void dae::SceneManager::RenderImgui()
+{
+	for (const auto& scene : m_pScenes)
+	{
+		scene->RenderImgui();
+	}
+}
+
 void dae::SceneManager::DeleteGameObjects()
 {
 	for (auto& scene : m_pScenes)

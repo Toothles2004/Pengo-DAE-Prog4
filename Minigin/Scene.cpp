@@ -58,6 +58,14 @@ void Scene::Render() const
 	}
 }
 
+void Scene::RenderImgui()
+{
+	for (const auto& object : m_pObjects)
+	{
+		object->RenderImgui();
+	}
+}
+
 void Scene::DeleteGameObjects()
 {
 	m_pObjects.erase(std::remove_if(

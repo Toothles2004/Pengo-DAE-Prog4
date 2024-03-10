@@ -10,6 +10,7 @@ public:
 	virtual void FixedUpdate(){}
 	virtual void LateUpdate(){}
 	virtual void Render() const {}
+	virtual void RenderImgui() {}
 
 	explicit BasicComponent(dae::GameObject* owner);
 	virtual ~BasicComponent() = default;
