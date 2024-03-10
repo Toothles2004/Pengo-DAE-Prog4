@@ -10,6 +10,7 @@
 #include <numeric>
 #include <vector>
 #include <deque>
+#include <algorithm>
 
 GraphComponent::GraphComponent(dae::GameObject* owner)
 	: BasicComponent(owner),
