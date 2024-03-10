@@ -28,11 +28,8 @@ void FPSComponent::Update()
 
     if (m_Timer >= m_RefreshRate)
     {
-        if(const auto sharedPtr = m_pTextComponent.lock())
-        {
-        	sharedPtr->SetText(std::format("{:.1f}", m_FrameCount / m_Timer));
-        }
-       m_FrameCount = 0;
-       m_Timer = 0.f;
+    	m_pTextComponent->SetText(std::format("{:.1f}", m_FrameCount / m_Timer));
+        m_FrameCount = 0;
+        m_Timer = 0.f;
     }
 }

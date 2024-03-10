@@ -25,15 +25,17 @@ namespace dae
 		}
 
 		template<typename T>
-		std::weak_ptr<T> GetComponent()
+		T* GetComponent()
 		{
-			if (const auto found = m_pComponents.find(typeid(T));
-				found != m_pComponents.end())
+			for(auto& [type, component] : m_pComponents)
 			{
-				return std::static_pointer_cast<T>(found->second);
+				if (typeid(T) == type)
+				{
+					return static_cast<T*>(component.get());
+				}
 			}
 
-			return std::weak_ptr<T>();
+			return nullptr;
 		}
 
 		template <typename T>
@@ -91,10 +93,10 @@ namespace dae
 		void UpdateWorldRotation();
 		void UpdateWorldScale();
 
-		bool m_ShouldDestroy = false;
-		bool m_PositionIsDirty = false;
-		bool m_RotationIsDirty = false;
-		bool m_ScaleIsDirty = false;
+		bool m_ShouldDestroy;
+		bool m_PositionIsDirty;
+		bool m_RotationIsDirty;
+		bool m_ScaleIsDirty;
 
 		glm::vec3 m_WorldPosition;
 		glm::vec3 m_LocalPosition;
@@ -103,7 +105,7 @@ namespace dae
 		glm::vec3 m_WorldScale;
 		glm::vec3 m_LocalScale;
 
-		GameObject* m_pParent = nullptr;
+		GameObject* m_pParent;
 		std::vector<GameObject*> m_pChildren{};
 
 		//Can only have 1 component of each type

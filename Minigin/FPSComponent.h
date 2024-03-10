@@ -13,7 +13,7 @@ private:
     float m_RefreshRate;
     float m_Timer;
     float m_FrameCount;
-    std::weak_ptr<TextComponent> m_pTextComponent;
+    TextComponent* m_pTextComponent;
 
 };
 

@@ -44,11 +44,7 @@ void TextComponent::Update()
 
 		if (m_pOwner != nullptr)
 		{
-
-			if (const auto sharedPtr = m_pRenderComponent.lock()) 
-			{
-				sharedPtr->SetTexture(m_TextTexture);
-			}
+			m_pRenderComponent->SetTexture(m_TextTexture);
 			m_NeedsUpdate = false;
 		}
 	}

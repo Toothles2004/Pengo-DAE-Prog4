@@ -28,8 +28,8 @@ private:
 	std::string m_Text{" "};
 	std::shared_ptr<dae::Font> m_Font;
 	std::shared_ptr<dae::Texture2D> m_TextTexture;
-	SDL_Color m_Color = { 255,255,255 };
-	std::weak_ptr<RenderComponent> m_pRenderComponent;
+	SDL_Color m_Color = { 255,255,255 , 255};
+	RenderComponent* m_pRenderComponent;
 
 };
 

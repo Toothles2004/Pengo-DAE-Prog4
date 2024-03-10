@@ -67,12 +67,17 @@ bool dae::GameObject::IsChild(GameObject* pChild) const
 }
 
 dae::GameObject::GameObject()
-	: m_WorldPosition{0.0f},
-	m_LocalPosition{0.f},
-	m_WorldRotation{0.0f},
+	: m_ShouldDestroy{ false },
+	m_PositionIsDirty{ false },
+	m_RotationIsDirty{ false },
+	m_ScaleIsDirty{ false },
+	m_WorldPosition{ 0.0f },
+	m_LocalPosition{ 0.f },
+	m_WorldRotation{ 0.0f },
 	m_LocalRotation{ 0.0f },
 	m_WorldScale{ 1.0f },
-	m_LocalScale{1.0f}
+	m_LocalScale{ 1.0f },
+	m_pParent{ nullptr }
 {
 }
 
