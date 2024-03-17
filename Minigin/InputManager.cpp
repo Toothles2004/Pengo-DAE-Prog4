@@ -1,24 +1,22 @@
 #include <SDL.h>
 #include "InputManager.h"
-
 #include "backends/imgui_impl_sdl2.h"
 
 
 bool dae::InputManager::ProcessInput()
 {
-	/*ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));
-	XInputGetState(0, &m_CurrentState);*/
+	for(const auto& controller : m_pControllers)
+	{
+		controller->ProcessInput();
+	}
 
+	m_pKeyboard->ProcessInput();
+
+	//Get the state of the keyboard
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) {
 		if (e.type == SDL_QUIT) {
 			return false;
-		}
-		if (e.type == SDL_KEYDOWN) {
-			
-		}
-		if (e.type == SDL_MOUSEBUTTONDOWN) {
-			
 		}
 
 		//Process event for IMGUI
@@ -26,4 +24,14 @@ bool dae::InputManager::ProcessInput()
 	}
 
 	return true;
+}
+
+void dae::InputManager::AddController(ControllerInput* pController)
+{
+	m_pControllers.emplace_back(std::unique_ptr<ControllerInput>(pController));
+}
+
+KeyboardInput* dae::InputManager::GetKeyboard()
+{
+	return m_pKeyboard.get();
 }
