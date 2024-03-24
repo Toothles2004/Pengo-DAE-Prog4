@@ -7,6 +7,7 @@
 #include "Minigin.h"
 
 #include <chrono>
+#include <steam_api_common.h>
 #include <thread>
 
 #include "GameTime.h"
@@ -111,6 +112,7 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		}
 
 		//Update and render
+		SteamAPI_RunCallbacks();
 		sceneManager.Update();
 		sceneManager.LateUpdate();
 		renderer.Render();

@@ -28,4 +28,12 @@ void ScoreDisplayObserverComponent::SetScoreDisplay(int score) const
     const std::string text = "Score: " + std::to_string(score);
     auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 12);
     m_pTextComponent->SetText(text, font);
+
+    if (m_pSteamAchievement != nullptr)
+    {
+        if (score >= 500)
+        {
+            m_pSteamAchievement->SetAchievement("ACH_WIN_ONE_GAME");
+        }
+    }
 }
