@@ -5,7 +5,10 @@
 #include <memory>
 #include <glm/vec3.hpp>
 
-class BasicComponent;
+namespace daeEngine
+{
+	class BasicComponent;
+}
 namespace dae
 {
 	class Texture2D;
@@ -49,7 +52,7 @@ namespace dae
 		template<typename T, typename... Args>
 		std::shared_ptr<T> AddComponent(Args&& ... args)
 		{
-			static_assert(std::is_base_of<BasicComponent, T>::value, "T must derive from Component");
+			static_assert(std::is_base_of<daeEngine::BasicComponent, T>::value, "T must derive from Component");
 
 			auto newComponent = std::make_shared<T>(this, args...);
 			m_pComponents.emplace(typeid(T), newComponent);
@@ -110,6 +113,6 @@ namespace dae
 		std::vector<GameObject*> m_pChildren{};
 
 		//Can only have 1 component of each type
-		std::unordered_map<std::type_index, std::shared_ptr<BasicComponent>> m_pComponents{};
+		std::unordered_map<std::type_index, std::shared_ptr<daeEngine::BasicComponent>> m_pComponents{};
 	};
 }

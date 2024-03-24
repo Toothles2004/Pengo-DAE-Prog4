@@ -11,12 +11,12 @@ namespace dae
 	{
 	public:
 		bool ProcessInput();
-		void AddController(ControllerInput* pController);
-		KeyboardInput* GetKeyboard();
+		void AddController(daeEngine::ControllerInput* pController);
+		daeEngine::KeyboardInput* GetKeyboard();
 
 	private:
-		std::vector<std::unique_ptr<ControllerInput>> m_pControllers;
-		inline static std::unique_ptr<KeyboardInput> m_pKeyboard = std::make_unique<KeyboardInput>();
+		std::vector<std::unique_ptr<daeEngine::ControllerInput>> m_pControllers;
+		inline static std::unique_ptr<daeEngine::KeyboardInput> m_pKeyboard = std::make_unique<daeEngine::KeyboardInput>();
 	};
 
 }

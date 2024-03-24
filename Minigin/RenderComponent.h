@@ -5,7 +5,7 @@
 #include "ResourceManager.h"
 #include "BasicComponent.h"
 
-class RenderComponent : public BasicComponent
+class RenderComponent : public daeEngine::BasicComponent
 {
 public:
     explicit RenderComponent(dae::GameObject* owner);

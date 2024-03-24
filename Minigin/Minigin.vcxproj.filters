@@ -37,6 +37,18 @@
     <Filter Include="Source Files\Input">
       <UniqueIdentifier>{e44e6717-572d-489a-ac85-2f1169bd4a3c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Observers">
+      <UniqueIdentifier>{6b808269-b16e-4e91-8e9e-5c521daf0cf0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Observers">
+      <UniqueIdentifier>{9bee8eb9-d9a0-497a-a790-a5ac6ad29701}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Subjects">
+      <UniqueIdentifier>{92437de6-ea74-4e13-a315-7c4c1dcc505f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Subjects">
+      <UniqueIdentifier>{0187f765-708b-471a-8b68-82c23ca8b47c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
@@ -135,6 +147,12 @@
     <ClInclude Include="ButtonInput.h">
       <Filter>Header Files\Input</Filter>
     </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="Subject.h">
+      <Filter>Header Files\Subjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -226,6 +244,9 @@
     </ClCompile>
     <ClCompile Include="KeyboardInput.cpp">
       <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Subject.cpp">
+      <Filter>Source Files\Subjects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

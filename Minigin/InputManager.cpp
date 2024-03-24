@@ -26,12 +26,12 @@ bool dae::InputManager::ProcessInput()
 	return true;
 }
 
-void dae::InputManager::AddController(ControllerInput* pController)
+void dae::InputManager::AddController(daeEngine::ControllerInput* pController)
 {
-	m_pControllers.emplace_back(std::unique_ptr<ControllerInput>(pController));
+	m_pControllers.emplace_back(std::unique_ptr<daeEngine::ControllerInput>(pController));
 }
 
-KeyboardInput* dae::InputManager::GetKeyboard()
+daeEngine::KeyboardInput* dae::InputManager::GetKeyboard()
 {
 	return m_pKeyboard.get();
 }

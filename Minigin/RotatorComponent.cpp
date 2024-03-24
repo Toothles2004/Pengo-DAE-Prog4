@@ -12,7 +12,7 @@ RotatorComponent::RotatorComponent(dae::GameObject* owner, float radius, float s
 
 void RotatorComponent::Update()
 {
-	auto& time = GameTime::GetInstance();
+	auto& time = daeEngine::GameTime::GetInstance();
 	glm::vec3 pos{};
 
 	m_Angle += m_OrbitingSpeed * time.GetDeltaTime();

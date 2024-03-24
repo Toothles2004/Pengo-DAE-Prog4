@@ -2,7 +2,7 @@
 #include <glm/vec2.hpp>
 #include "BasicComponent.h"
 
-class RotatorComponent : public BasicComponent
+class RotatorComponent : public daeEngine::BasicComponent
 {
 public:
 	explicit RotatorComponent(dae::GameObject* owner, float radius, float speed);

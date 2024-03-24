@@ -2,7 +2,7 @@
 #include <glm/vec3.hpp>
 #include "BasicComponent.h"
 
-class MovementComponent : public BasicComponent
+class MovementComponent : public daeEngine::BasicComponent
 {
 public:
 	explicit MovementComponent(dae::GameObject* owner, float speed);

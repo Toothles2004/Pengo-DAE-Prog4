@@ -25,7 +25,7 @@ public:
 	int id{ 1 };
 };
 
-class GraphComponent : public BasicComponent
+class GraphComponent : public daeEngine::BasicComponent
 {
 public:
 	explicit GraphComponent(dae::GameObject* owner);

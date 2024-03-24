@@ -1,6 +1,9 @@
 #include "Command.h"
 
-Command::Command(dae::GameObject* actor)
+namespace daeEngine
 {
-	m_pActor = actor;
+	Command::Command(dae::GameObject* actor)
+	{
+		m_pActor = actor;
+	}
 }

@@ -8,7 +8,7 @@
 #include "Font.h"
 #include "Texture2D.h"
 
-class TextComponent : public BasicComponent
+class TextComponent : public daeEngine::BasicComponent
 {
 public:
 	explicit TextComponent(dae::GameObject* owner);

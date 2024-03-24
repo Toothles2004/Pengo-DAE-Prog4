@@ -17,7 +17,7 @@ FPSComponent::FPSComponent(dae::GameObject* owner)
 
 void FPSComponent::Update()
 {
-    const float deltaT = GameTime::GetDeltaTime();
+    const float deltaT = daeEngine::GameTime::GetDeltaTime();
     if (deltaT <= 0.f)
     {
         return;

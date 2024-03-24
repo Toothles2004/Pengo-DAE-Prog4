@@ -87,7 +87,7 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
-	auto& time = GameTime::GetInstance();
+	auto& time = daeEngine::GameTime::GetInstance();
 	time.SetFPS();
 
 	//Game loop

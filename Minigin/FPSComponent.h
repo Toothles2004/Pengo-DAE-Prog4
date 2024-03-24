@@ -2,7 +2,7 @@
 #include "BasicComponent.h"
 #include "TextComponent.h"
 
-class FPSComponent : public BasicComponent
+class FPSComponent : public daeEngine::BasicComponent
 {
 public:
     explicit FPSComponent(dae::GameObject* owner);
