@@ -1,19 +1,14 @@
 #pragma once
 #include <any>
-
-#include "GameObject.h"
+#include <unordered_map>
 
 namespace daeEngine
 {
 	class Observer
 	{
 	public:
-
-		template <typename TEvent>
-		void OnNotify(std::vector<std::any> data, TEvent event)
-		{
-			static_assert(std::is_enum<TEvent>::value, "TEvent must be an enum");
-		}
+		Observer() = default;
+		virtual void OnNotify(std::unordered_map<std::string, std::any>& data, std::string& event) = 0;
 
 		virtual ~Observer() = default;
 		Observer(const Observer& other) = delete;

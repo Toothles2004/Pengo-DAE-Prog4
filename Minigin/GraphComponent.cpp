@@ -14,10 +14,10 @@
 
 GraphComponent::GraphComponent(dae::GameObject* owner)
 	: BasicComponent(owner),
-	m_AmountOfSamples{ 10 },
-	m_IsIntCalculated{ false },
-	m_IsGameObject3DCalculated{ false },
-	m_IsGameObject3DAltCalculated{ false }
+	m_AmountOfSamples( 10 ),
+	m_IsIntCalculated( false ),
+	m_IsGameObject3DCalculated( false ),
+	m_IsGameObject3DAltCalculated( false )
 {
 	for (int index{}; index < 11; ++index)
 	{

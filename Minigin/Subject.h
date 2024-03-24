@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-
 #include "Observer.h"
 
 namespace daeEngine
@@ -11,13 +10,11 @@ namespace daeEngine
 		void AddObserver(Observer* observer);
 		void RemoveObserver(Observer* observer);
 
-		template <typename TEvent>
-		void Notify(TEvent event)
+		void Notify(std::string& event)
 		{
-			static_assert(std::is_enum<TEvent>::value, "TEvent must be an enum");
 			for (Observer* observer : m_pObservers)
 			{
-				observer->OnNotify(event, m_pData);
+				observer->OnNotify(m_pData, event);
 			}
 		}
 

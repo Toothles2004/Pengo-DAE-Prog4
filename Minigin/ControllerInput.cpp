@@ -12,7 +12,7 @@ namespace daeEngine
 	{
 	public:
 		explicit ControllerInputImpl(int controllerIndex)
-			: m_ControllerIndex{ controllerIndex }
+			: m_ControllerIndex( controllerIndex )
 		{
 			ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));
 			ZeroMemory(&m_PreviousState, sizeof(XINPUT_STATE));

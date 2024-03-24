@@ -3,9 +3,9 @@
 
 FPSComponent::FPSComponent(dae::GameObject* owner)
     : BasicComponent( owner ),
-    m_RefreshRate{ 1.f },
-    m_Timer{ m_RefreshRate },
-	m_FrameCount{}
+    m_RefreshRate( 1.f ),
+    m_Timer( m_RefreshRate ),
+	m_FrameCount()
 {
     if(owner->HasComponent<TextComponent>() == false)
     {

@@ -153,6 +153,15 @@
     <ClInclude Include="Subject.h">
       <Filter>Header Files\Subjects</Filter>
     </ClInclude>
+    <ClInclude Include="HealthDisplayObserverComponent.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthSubjectComponent.h">
+      <Filter>Header Files\Subjects</Filter>
+    </ClInclude>
+    <ClInclude Include="DamageCommand.h">
+      <Filter>Header Files\Commands</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -247,6 +256,15 @@
     </ClCompile>
     <ClCompile Include="Subject.cpp">
       <Filter>Source Files\Subjects</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthDisplayObserverComponent.cpp">
+      <Filter>Source Files\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthSubjectComponent.cpp">
+      <Filter>Source Files\Subjects</Filter>
+    </ClCompile>
+    <ClCompile Include="DamageCommand.cpp">
+      <Filter>Source Files\Commands</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

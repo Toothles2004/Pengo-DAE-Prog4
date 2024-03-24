@@ -3,7 +3,7 @@
 namespace daeEngine
 {
 	BasicComponent::BasicComponent(dae::GameObject* owner)
-		: m_pOwner{ owner }
+		: m_pOwner(owner)
 	{
 
 	}

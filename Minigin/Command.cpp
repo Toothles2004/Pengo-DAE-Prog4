@@ -3,7 +3,7 @@
 namespace daeEngine
 {
 	Command::Command(dae::GameObject* actor)
+		: m_pActor(actor)
 	{
-		m_pActor = actor;
 	}
 }

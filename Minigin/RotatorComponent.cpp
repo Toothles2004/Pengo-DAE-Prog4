@@ -3,9 +3,9 @@
 
 RotatorComponent::RotatorComponent(dae::GameObject* owner, float radius, float speed)
 	: BasicComponent( owner ),
-	m_OrbitingRadius{ radius },
-	m_OrbitingSpeed{ speed },
-	m_Angle{ 0.f }
+	m_OrbitingRadius( radius ),
+	m_OrbitingSpeed( speed ),
+	m_Angle( 0.f )
 {
 
 }
