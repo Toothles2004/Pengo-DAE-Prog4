@@ -162,6 +162,15 @@
     <ClInclude Include="DamageCommand.h">
       <Filter>Header Files\Commands</Filter>
     </ClInclude>
+    <ClInclude Include="ScoreDisplayObserverComponent.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreSubjectComponent.h">
+      <Filter>Header Files\Subjects</Filter>
+    </ClInclude>
+    <ClInclude Include="IncreaseScoreCommand.h">
+      <Filter>Header Files\Commands</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -264,6 +273,15 @@
       <Filter>Source Files\Subjects</Filter>
     </ClCompile>
     <ClCompile Include="DamageCommand.cpp">
+      <Filter>Source Files\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreDisplayObserverComponent.cpp">
+      <Filter>Source Files\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreSubjectComponent.cpp">
+      <Filter>Source Files\Subjects</Filter>
+    </ClCompile>
+    <ClCompile Include="IncreaseScoreCommand.cpp">
       <Filter>Source Files\Commands</Filter>
     </ClCompile>
   </ItemGroup>

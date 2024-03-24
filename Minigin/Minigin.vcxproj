@@ -197,6 +197,7 @@
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="GraphComponent.h" />
     <ClInclude Include="HealthSubjectComponent.h" />
+    <ClInclude Include="IncreaseScoreCommand.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="KeyboardInput.h" />
     <ClInclude Include="HealthDisplayObserverComponent.h" />
@@ -210,6 +211,8 @@
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="ScoreDisplayObserverComponent.h" />
+    <ClInclude Include="ScoreSubjectComponent.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="TextComponent.h" />
@@ -234,6 +237,7 @@
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="GraphComponent.cpp" />
     <ClCompile Include="HealthSubjectComponent.cpp" />
+    <ClCompile Include="IncreaseScoreCommand.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="KeyboardInput.cpp" />
     <ClCompile Include="HealthDisplayObserverComponent.cpp" />
@@ -247,6 +251,8 @@
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="ScoreDisplayObserverComponent.cpp" />
+    <ClCompile Include="ScoreSubjectComponent.cpp" />
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="Texture2D.cpp" />

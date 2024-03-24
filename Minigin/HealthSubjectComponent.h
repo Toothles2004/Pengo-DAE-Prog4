@@ -12,6 +12,6 @@ public:
 
 private:
 	int m_Health;
-	std::vector<std::string> m_pEvent;
+	
 };
 
