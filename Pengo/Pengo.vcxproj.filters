@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Game Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Game Files\Components">
+      <UniqueIdentifier>{05549246-6cc4-4e92-bdf2-71141e7c421c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Components\Commands">
+      <UniqueIdentifier>{aebf6c8b-6b05-4c73-bb42-c6fc0ac9ac6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Components\Observers">
+      <UniqueIdentifier>{a064f4a2-e5a5-49c1-b429-0d0148865c5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Components\Subjects">
+      <UniqueIdentifier>{8fb4f42f-1573-452e-ab77-17f1c8acfa84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Components\General">
+      <UniqueIdentifier>{7f66aac5-9393-4e8d-b508-92c5a0334d35}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Pengo.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DamageCommand.cpp">
+      <Filter>Game Files\Components\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="FPSComponent.cpp">
+      <Filter>Game Files\Components\General</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphComponent.cpp">
+      <Filter>Game Files\Components\General</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthDisplayObserverComponent.cpp">
+      <Filter>Game Files\Components\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthSubjectComponent.cpp">
+      <Filter>Game Files\Components\Subjects</Filter>
+    </ClCompile>
+    <ClCompile Include="IncreaseScoreCommand.cpp">
+      <Filter>Game Files\Components\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="MovementCommand.cpp">
+      <Filter>Game Files\Components\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="MovementComponent.cpp">
+      <Filter>Game Files\Components\General</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderComponent.cpp">
+      <Filter>Game Files\Components\General</Filter>
+    </ClCompile>
+    <ClCompile Include="RotatorComponent.cpp">
+      <Filter>Game Files\Components\General</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreDisplayObserverComponent.cpp">
+      <Filter>Game Files\Components\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreSubjectComponent.cpp">
+      <Filter>Game Files\Components\Subjects</Filter>
+    </ClCompile>
+    <ClCompile Include="TextComponent.cpp">
+      <Filter>Game Files\Components\General</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DamageCommand.h">
+      <Filter>Game Files\Components\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="FPSComponent.h">
+      <Filter>Game Files\Components\General</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphComponent.h">
+      <Filter>Game Files\Components\General</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthDisplayObserverComponent.h">
+      <Filter>Game Files\Components\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthSubjectComponent.h">
+      <Filter>Game Files\Components\Subjects</Filter>
+    </ClInclude>
+    <ClInclude Include="IncreaseScoreCommand.h">
+      <Filter>Game Files\Components\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementCommand.h">
+      <Filter>Game Files\Components\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementComponent.h">
+      <Filter>Game Files\Components\General</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderComponent.h">
+      <Filter>Game Files\Components\General</Filter>
+    </ClInclude>
+    <ClInclude Include="RotatorComponent.h">
+      <Filter>Game Files\Components\General</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreDisplayObserverComponent.h">
+      <Filter>Game Files\Components\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreSubjectComponent.h">
+      <Filter>Game Files\Components\Subjects</Filter>
+    </ClInclude>
+    <ClInclude Include="TextComponent.h">
+      <Filter>Game Files\Components\General</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
