@@ -171,9 +171,6 @@
     <ClInclude Include="IncreaseScoreCommand.h">
       <Filter>Header Files\Commands</Filter>
     </ClInclude>
-    <ClInclude Include="CSteamAchievements.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -286,9 +283,6 @@
     </ClCompile>
     <ClCompile Include="IncreaseScoreCommand.cpp">
       <Filter>Source Files\Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="CSteamAchievements.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
