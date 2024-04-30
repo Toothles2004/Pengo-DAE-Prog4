@@ -11,7 +11,7 @@ namespace daeEngine
 
 		void ProcessInput();
 		void AddKeyBind(const ControllerKeyBinds& keyBind);
-		void AddKeyBind(ButtonState state, ControllerButton button, std::shared_ptr<daeEngine::Command> command);
+		void AddKeyBind(ButtonState state, ControllerButton button, std::shared_ptr<Command> command);
 
 		~ControllerInput();
 		ControllerInput(const ControllerInput& other) = delete;

@@ -1,6 +1,7 @@
 #include "HealthDisplayObserverComponent.h"
 #include "TextComponent.h"
 #include "HealthSubjectComponent.h"
+#include "SoundServiceLocator.h"
 
 HealthDisplayObserverComponent::HealthDisplayObserverComponent(dae::GameObject* owner)
 	: BasicComponent(owner)
@@ -20,6 +21,9 @@ void HealthDisplayObserverComponent::OnNotify(std::unordered_map<std::string, st
 		if (iter != data.end()) {
 			SetHealthDisplay(std::any_cast<int>(iter->second));
 		}
+		auto& soundService = daeEngine::SoundServiceLocator::GetSoundService();
+		soundService.LoadSound("..\\Data\\sounds\\Miss.mp3", 1);
+		soundService.PlaySound(1, 1, 90, 0);
 	}
 	else if (event == "Died")
 	{

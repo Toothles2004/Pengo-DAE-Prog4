@@ -49,6 +49,12 @@
     <Filter Include="Source Files\Subjects">
       <UniqueIdentifier>{0187f765-708b-471a-8b68-82c23ca8b47c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Services">
+      <UniqueIdentifier>{eca4461d-7766-4322-88ab-f258d94b8b50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Services">
+      <UniqueIdentifier>{bae10694-2c0a-4304-b100-08fa13aa77c2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
@@ -84,18 +90,6 @@
     <ClInclude Include="BasicComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="RenderComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="TextComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="FPSComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="RotatorComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\3rdParty\imgui-1.90.4\imconfig.h">
       <Filter>Imgui</Filter>
     </ClInclude>
@@ -123,9 +117,6 @@
     <ClInclude Include="..\3rdParty\imgui-1.90.4\imgui_plot.h">
       <Filter>Imgui</Filter>
     </ClInclude>
-    <ClInclude Include="GraphComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="Command.h">
       <Filter>Header Files\Commands</Filter>
     </ClInclude>
@@ -134,12 +125,6 @@
     </ClInclude>
     <ClInclude Include="InputManager.h">
       <Filter>Header Files\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="MovementComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="MovementCommand.h">
-      <Filter>Header Files\Commands</Filter>
     </ClInclude>
     <ClInclude Include="KeyboardInput.h">
       <Filter>Header Files\Input</Filter>
@@ -153,23 +138,17 @@
     <ClInclude Include="Subject.h">
       <Filter>Header Files\Subjects</Filter>
     </ClInclude>
-    <ClInclude Include="HealthDisplayObserverComponent.h">
-      <Filter>Header Files\Observers</Filter>
+    <ClInclude Include="SDLSoundService.h">
+      <Filter>Header Files\Services</Filter>
     </ClInclude>
-    <ClInclude Include="HealthSubjectComponent.h">
-      <Filter>Header Files\Subjects</Filter>
+    <ClInclude Include="SoundServiceLocator.h">
+      <Filter>Header Files\Services</Filter>
     </ClInclude>
-    <ClInclude Include="DamageCommand.h">
-      <Filter>Header Files\Commands</Filter>
+    <ClInclude Include="SoundService.h">
+      <Filter>Header Files\Services</Filter>
     </ClInclude>
-    <ClInclude Include="ScoreDisplayObserverComponent.h">
-      <Filter>Header Files\Observers</Filter>
-    </ClInclude>
-    <ClInclude Include="ScoreSubjectComponent.h">
-      <Filter>Header Files\Subjects</Filter>
-    </ClInclude>
-    <ClInclude Include="IncreaseScoreCommand.h">
-      <Filter>Header Files\Commands</Filter>
+    <ClInclude Include="NullSoundService.h">
+      <Filter>Header Files\Services</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -194,9 +173,6 @@
     <ClCompile Include="Font.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Minigin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -204,18 +180,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BasicComponent.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderComponent.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="TextComponent.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="FPSComponent.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="RotatorComponent.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui-1.90.4\imgui.cpp">
@@ -242,9 +206,6 @@
     <ClCompile Include="..\3rdParty\imgui-1.90.4\imgui_plot.cpp">
       <Filter>Imgui</Filter>
     </ClCompile>
-    <ClCompile Include="GraphComponent.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
     <ClCompile Include="Command.cpp">
       <Filter>Source Files\Commands</Filter>
     </ClCompile>
@@ -254,35 +215,14 @@
     <ClCompile Include="InputManager.cpp">
       <Filter>Source Files\Input</Filter>
     </ClCompile>
-    <ClCompile Include="MovementComponent.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="MovementCommand.cpp">
-      <Filter>Source Files\Commands</Filter>
-    </ClCompile>
     <ClCompile Include="KeyboardInput.cpp">
       <Filter>Source Files\Input</Filter>
     </ClCompile>
     <ClCompile Include="Subject.cpp">
       <Filter>Source Files\Subjects</Filter>
     </ClCompile>
-    <ClCompile Include="HealthDisplayObserverComponent.cpp">
-      <Filter>Source Files\Observers</Filter>
-    </ClCompile>
-    <ClCompile Include="HealthSubjectComponent.cpp">
-      <Filter>Source Files\Subjects</Filter>
-    </ClCompile>
-    <ClCompile Include="DamageCommand.cpp">
-      <Filter>Source Files\Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="ScoreDisplayObserverComponent.cpp">
-      <Filter>Source Files\Observers</Filter>
-    </ClCompile>
-    <ClCompile Include="ScoreSubjectComponent.cpp">
-      <Filter>Source Files\Subjects</Filter>
-    </ClCompile>
-    <ClCompile Include="IncreaseScoreCommand.cpp">
-      <Filter>Source Files\Commands</Filter>
+    <ClCompile Include="SDLSoundService.cpp">
+      <Filter>Source Files\Services</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -18,6 +18,8 @@
 #include "TextComponent.h"
 #include "InputManager.h"
 //#include "Command.h"
+#include <iostream>
+
 #include "DamageCommand.h"
 #include "HealthDisplayObserverComponent.h"
 #include "HealthSubjectComponent.h"
@@ -26,10 +28,17 @@
 #include "ScoreDisplayObserverComponent.h"
 #include "ScoreSubjectComponent.h"
 #include "IncreaseScoreCommand.h"
+#include "SoundServiceLocator.h"
 
 void load()
 {
 	auto& scene = dae::SceneManager::GetInstance().CreateScene("Programming 4 assignment");
+
+	int amountOfChannels{ 2 };
+	daeEngine::SoundServiceLocator::RegisterSoundService(std::make_unique<daeEngine::SDLSoundService>(amountOfChannels));
+	auto& soundService = daeEngine::SoundServiceLocator::GetSoundService();
+	soundService.LoadSound("..\\Data\\sounds\\MainBGM.mp3", 0);
+	soundService.PlaySound(0, 0, 100, -1);
 
 	//Background
 	auto go = std::make_shared<dae::GameObject>();
@@ -57,7 +66,7 @@ void load()
 	//Set new font for text
 	font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 12);
 
-	//button info
+	//Button info
 	go = std::make_shared<dae::GameObject>();
 	go->AddComponent<TextComponent>("Use the D-Pad to move Pengo, X to inflict damage, A and B to get points", font);
 	go->SetLocalPosition({ 5, 75, 0 });
@@ -66,6 +75,11 @@ void load()
 	go = std::make_shared<dae::GameObject>();
 	go->AddComponent<TextComponent>("Use the WASD to move the ice bear, C to inflict damage, Z and X to get points", font);
 	go->SetLocalPosition({ 5, 90, 0 });
+	scene.Add(go);
+
+	go = std::make_shared<dae::GameObject>();
+	go->AddComponent<TextComponent>("When taking damage a sound plays", font);
+	go->SetLocalPosition({ 5, 105, 0 });
 	scene.Add(go);
 
 	//Penguin display
@@ -81,7 +95,7 @@ void load()
 	go->SetLocalPosition({ 5, 145, 0 });
 	scene.Add(go);
 
-	//penguin
+	//Penguin
 	auto goPenguin = std::make_shared<dae::GameObject>();
 	goPenguin->AddComponent<RenderComponent>("textures/penguin.png");
 	goPenguin->AddComponent<MovementComponent>(100.f);
@@ -103,7 +117,7 @@ void load()
 	go->SetLocalPosition({ 5, 175, 0 });
 	scene.Add(go);
 
-	//enemy
+	//Enemy
 	auto goEnemy = std::make_shared<dae::GameObject>();
 	goEnemy->AddComponent<RenderComponent>("textures/enemy.png");
 	goEnemy->AddComponent<MovementComponent>(200.f);
@@ -144,14 +158,14 @@ void load()
 	//goEmpty->SetLocalPosition({ 100, 250, 0 });
 	//scene.Add(goEmpty);
 
-	////penguin
+	////Penguin
 	//auto goPenguin = std::make_shared<dae::GameObject>();
 	//goPenguin->SetParent(goEmpty.get(), false);
 	//goPenguin->AddComponent<RenderComponent>("textures/penguin.png");
 	//goPenguin->AddComponent<RotatorComponent>(20.f, -10.f);
 	//scene.Add(goPenguin);
 
-	////enemy
+	////Enemy
 	//go = std::make_shared<dae::GameObject>();
 	//go->SetParent(goPenguin.get(), false);
 	//go->AddComponent<RenderComponent>("textures/enemy.png");
