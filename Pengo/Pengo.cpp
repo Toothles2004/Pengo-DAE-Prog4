@@ -28,6 +28,7 @@
 #include "ScoreDisplayObserverComponent.h"
 #include "ScoreSubjectComponent.h"
 #include "IncreaseScoreCommand.h"
+#include "PlayerComponent.h"
 #include "SoundServiceLocator.h"
 
 void load()
@@ -68,12 +69,12 @@ void load()
 
 	//Button info
 	go = std::make_shared<dae::GameObject>();
-	go->AddComponent<TextComponent>("Use the D-Pad to move Pengo, X to inflict damage, A and B to get points", font);
+	go->AddComponent<TextComponent>("Use the D-Pad to move the left Pengo, X to inflict damage, A and B to get points", font);
 	go->SetLocalPosition({ 5, 75, 0 });
 	scene.Add(go);
 
 	go = std::make_shared<dae::GameObject>();
-	go->AddComponent<TextComponent>("Use the WASD to move the ice bear, C to inflict damage, Z and X to get points", font);
+	go->AddComponent<TextComponent>("Use the WASD to move the right Pengo, C to inflict damage, Z and X to get points", font);
 	go->SetLocalPosition({ 5, 90, 0 });
 	scene.Add(go);
 
@@ -97,8 +98,9 @@ void load()
 
 	//Penguin
 	auto goPenguin = std::make_shared<dae::GameObject>();
-	goPenguin->AddComponent<RenderComponent>("textures/penguin.png");
-	goPenguin->AddComponent<MovementComponent>(100.f);
+	goPenguin->AddComponent<RenderComponent>("textures/penguinDown.png");
+	//goPenguin->AddComponent<MovementComponent>(100.f);
+	goPenguin->AddComponent<PlayerComponent>();
 	goPenguin->AddComponent<HealthSubjectComponent>()->AddObserver(healthObserver.get());
 	goPenguin->AddComponent<ScoreSubjectComponent>()->AddObserver(scoreObserver.get());
 	goPenguin->SetLocalPosition({ 100, 250, 0 });
@@ -119,8 +121,9 @@ void load()
 
 	//Enemy
 	auto goEnemy = std::make_shared<dae::GameObject>();
-	goEnemy->AddComponent<RenderComponent>("textures/enemy.png");
-	goEnemy->AddComponent<MovementComponent>(200.f);
+	goEnemy->AddComponent<RenderComponent>("textures/penguinDown.png");
+	//goEnemy->AddComponent<MovementComponent>(200.f);
+	goEnemy->AddComponent<PlayerComponent>();
 	goEnemy->AddComponent<HealthSubjectComponent>()->AddObserver(healthObserver.get());
 	goEnemy->AddComponent<ScoreSubjectComponent>()->AddObserver(scoreObserver.get());
 	goEnemy->SetLocalPosition({ 130, 250, 0 });
@@ -143,6 +146,10 @@ void load()
 	keyboard->AddKeyBind(daeEngine::ButtonState::pressed, SDL_SCANCODE_S, std::make_shared<MovementCommand>(goEnemy.get(), glm::vec3(0, 1, 0)));
 	keyboard->AddKeyBind(daeEngine::ButtonState::pressed, SDL_SCANCODE_A, std::make_shared<MovementCommand>(goEnemy.get(), glm::vec3(-1, 0, 0)));
 	keyboard->AddKeyBind(daeEngine::ButtonState::pressed, SDL_SCANCODE_D, std::make_shared<MovementCommand>(goEnemy.get(), glm::vec3(1, 0, 0)));
+	keyboard->AddKeyBind(daeEngine::ButtonState::up, SDL_SCANCODE_W, std::make_shared<MovementCommand>(goEnemy.get(), glm::vec3(0, 0, 0)));
+	keyboard->AddKeyBind(daeEngine::ButtonState::up, SDL_SCANCODE_S, std::make_shared<MovementCommand>(goEnemy.get(), glm::vec3(0, 0, 0)));
+	keyboard->AddKeyBind(daeEngine::ButtonState::up, SDL_SCANCODE_A, std::make_shared<MovementCommand>(goEnemy.get(), glm::vec3(0, 0, 0)));
+	keyboard->AddKeyBind(daeEngine::ButtonState::up, SDL_SCANCODE_D, std::make_shared<MovementCommand>(goEnemy.get(), glm::vec3(0, 0, 0)));
 	keyboard->AddKeyBind(daeEngine::ButtonState::down, SDL_SCANCODE_C, std::make_shared<DamageCommand>(goEnemy.get()));
 	keyboard->AddKeyBind(daeEngine::ButtonState::down, SDL_SCANCODE_Z, std::make_shared<IncreaseScoreCommand>(goEnemy.get(), 10));
 	keyboard->AddKeyBind(daeEngine::ButtonState::down, SDL_SCANCODE_X, std::make_shared<IncreaseScoreCommand>(goEnemy.get(), 100));

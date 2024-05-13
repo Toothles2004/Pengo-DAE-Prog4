@@ -20,6 +20,15 @@
     <Filter Include="Game Files\Components\General">
       <UniqueIdentifier>{7f66aac5-9393-4e8d-b508-92c5a0334d35}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Files\States">
+      <UniqueIdentifier>{e70e3ae7-2175-40bd-887c-63f30474d50e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\States\Player">
+      <UniqueIdentifier>{b0b0b88b-0d8e-4edf-b7a2-2a7d7f7c3039}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Components\Actors">
+      <UniqueIdentifier>{06839a5a-bcbd-4c53-9285-50055431ee6c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Pengo.cpp">
@@ -64,6 +73,27 @@
     <ClCompile Include="TextComponent.cpp">
       <Filter>Game Files\Components\General</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerIdleState.cpp">
+      <Filter>Game Files\States\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerMovingState.cpp">
+      <Filter>Game Files\States\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerPushingState.cpp">
+      <Filter>Game Files\States\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerCrushingState.cpp">
+      <Filter>Game Files\States\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerDiedState.cpp">
+      <Filter>Game Files\States\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerWonState.cpp">
+      <Filter>Game Files\States\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerComponent.cpp">
+      <Filter>Game Files\Components\Actors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DamageCommand.h">
@@ -104,6 +134,27 @@
     </ClInclude>
     <ClInclude Include="TextComponent.h">
       <Filter>Game Files\Components\General</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerIdleState.h">
+      <Filter>Game Files\States\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerMovingState.h">
+      <Filter>Game Files\States\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerPushingState.h">
+      <Filter>Game Files\States\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerCrushingState.h">
+      <Filter>Game Files\States\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerDiedState.h">
+      <Filter>Game Files\States\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerWonState.h">
+      <Filter>Game Files\States\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerComponent.h">
+      <Filter>Game Files\Components\Actors</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

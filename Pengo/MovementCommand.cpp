@@ -1,5 +1,5 @@
 #include "MovementCommand.h"
-#include "MovementComponent.h"
+#include "PlayerComponent.h"
 
 MovementCommand::MovementCommand(dae::GameObject* pActor, glm::vec3 direction)
 	: Command(pActor),
@@ -9,5 +9,5 @@ MovementCommand::MovementCommand(dae::GameObject* pActor, glm::vec3 direction)
 
 void MovementCommand::Execute()
 {
-	m_pActor->GetComponent<MovementComponent>()->Move(m_Direction);
+	m_pActor->GetComponent<PlayerComponent>()->SetDirection(m_Direction);
 }

@@ -55,6 +55,12 @@
     <Filter Include="Source Files\Services">
       <UniqueIdentifier>{bae10694-2c0a-4304-b100-08fa13aa77c2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\States">
+      <UniqueIdentifier>{9c2d977d-d807-466c-9910-d2850a4eec39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\States">
+      <UniqueIdentifier>{59761d16-a527-477c-80e4-015a063353bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
@@ -150,6 +156,9 @@
     <ClInclude Include="NullSoundService.h">
       <Filter>Header Files\Services</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerState.h">
+      <Filter>Header Files\States</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -223,6 +232,9 @@
     </ClCompile>
     <ClCompile Include="SDLSoundService.cpp">
       <Filter>Source Files\Services</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState.cpp">
+      <Filter>Source Files\States</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

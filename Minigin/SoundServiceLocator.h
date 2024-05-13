@@ -16,7 +16,7 @@ namespace daeEngine
 		}
 
 	private:
-		inline static std::unique_ptr<SoundService> m_SoundServiceInstance{std::make_unique<SDLSoundService>(1)};
+		inline static std::unique_ptr<SoundService> m_SoundServiceInstance{std::make_unique<NullSoundService>()};
 	};
 }
 
