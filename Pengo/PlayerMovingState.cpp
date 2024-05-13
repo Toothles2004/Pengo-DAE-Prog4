@@ -30,15 +30,17 @@ void PlayerMovingState::Update()
 	}
 }
 
-PlayerState* PlayerMovingState::HandleInput(glm::vec3 direction)
+std::unique_ptr<PlayerState> PlayerMovingState::HandleInput(glm::vec3 direction)
 {
 	m_Direction = direction;
 	if (abs(m_Direction.x) <= 0.01f && abs(m_Direction.y) <= 0.01f)
 	{
-		return new PlayerIdleState;
+		auto state = std::make_unique<PlayerIdleState>();
+		return state;
 	}
 
-	return this;
+	auto state = std::make_unique<PlayerMovingState>();
+	return state;
 }
 
 void PlayerMovingState::OnEnter(glm::vec3, dae::GameObject* owner)

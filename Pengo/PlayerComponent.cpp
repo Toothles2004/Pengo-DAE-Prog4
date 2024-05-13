@@ -13,10 +13,10 @@ void PlayerComponent::Update()
 {
 	auto state = m_State->HandleInput(m_Direction);
 	m_State->Update();
-	if (state != m_State.get())
+	if (state != m_State)
 	{
 		m_State->OnExit();
-		m_State = std::move(std::unique_ptr<PlayerState>(state));
+		m_State = std::move(state);
 		m_State->OnEnter(m_PreviousDirection, m_pOwner);
 	}
 	m_PreviousDirection = m_Direction;
