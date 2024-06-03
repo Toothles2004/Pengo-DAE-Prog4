@@ -28,9 +28,6 @@
     <Filter Include="Header Files\Commands">
       <UniqueIdentifier>{b512368f-5253-4993-9ea2-b1bbe1f70674}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Commands">
-      <UniqueIdentifier>{dcde947c-baac-46b3-9add-1e3647552502}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Input">
       <UniqueIdentifier>{1d533bc9-a95d-46e9-906e-a969956b4900}</UniqueIdentifier>
     </Filter>
@@ -39,9 +36,6 @@
     </Filter>
     <Filter Include="Header Files\Observers">
       <UniqueIdentifier>{6b808269-b16e-4e91-8e9e-5c521daf0cf0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Observers">
-      <UniqueIdentifier>{9bee8eb9-d9a0-497a-a790-a5ac6ad29701}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Subjects">
       <UniqueIdentifier>{92437de6-ea74-4e13-a315-7c4c1dcc505f}</UniqueIdentifier>
@@ -214,9 +208,6 @@
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui-1.90.4\imgui_plot.cpp">
       <Filter>Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="Command.cpp">
-      <Filter>Source Files\Commands</Filter>
     </ClCompile>
     <ClCompile Include="ControllerInput.cpp">
       <Filter>Source Files\Input</Filter>

@@ -1,4 +1,5 @@
 #pragma once
+#include "GameObject.h"
 #include "Command.h"
 
 class MovementCommand : public daeEngine::Command
@@ -9,6 +10,6 @@ public:
 
 private:
 	glm::vec3 m_Direction;
-
+	dae::GameObject* m_pActor;
 };
 

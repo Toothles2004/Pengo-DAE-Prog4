@@ -2,8 +2,8 @@
 #include "PlayerComponent.h"
 
 MovementCommand::MovementCommand(dae::GameObject* pActor, glm::vec3 direction)
-	: Command(pActor),
-	m_Direction(direction)
+	: m_Direction(direction),
+	m_pActor(pActor)
 {
 }
 

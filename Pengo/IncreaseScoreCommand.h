@@ -1,5 +1,6 @@
 #pragma once
 #include "Command.h"
+#include "GameObject.h"
 
 class IncreaseScoreCommand : public daeEngine::Command
 {
@@ -9,5 +10,6 @@ public:
 
 private:
 	int m_ScoreIncrease;
+	dae::GameObject* m_pActor;
 };
 

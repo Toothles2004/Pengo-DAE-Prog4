@@ -2,7 +2,7 @@
 #include "HealthSubjectComponent.h"
 
 DamageCommand::DamageCommand(dae::GameObject* pActor)
-	: Command(pActor)
+	: m_pActor(pActor)
 {
 }
 
