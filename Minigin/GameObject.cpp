@@ -20,9 +20,7 @@ void dae::GameObject::SetParent(GameObject* parent, bool keepWorldPosition )
 			SetLocalScale(GetWorldScale());
 		}
 
-		SetPositionDirty();
-		SetRotationDirty();
-		SetScaleDirty();
+		SetTransformDirty();
 	}
 	else
 	{
@@ -33,9 +31,7 @@ void dae::GameObject::SetParent(GameObject* parent, bool keepWorldPosition )
 			SetLocalScale(GetLocalScale() / parent->GetWorldScale());
 		}
 
-		SetPositionDirty();
-		SetRotationDirty();
-		SetScaleDirty();
+		SetTransformDirty();
 	}
 
 	if (m_pParent != nullptr)
@@ -68,15 +64,9 @@ bool dae::GameObject::IsChild(GameObject* pChild) const
 
 dae::GameObject::GameObject()
 	: m_ShouldDestroy{ false },
-	m_PositionIsDirty{ false },
-	m_RotationIsDirty{ false },
-	m_ScaleIsDirty{ false },
-	m_WorldPosition{ 0.0f },
-	m_LocalPosition{ 0.f },
-	m_WorldRotation{ 0.0f },
-	m_LocalRotation{ 0.0f },
-	m_WorldScale{ 1.0f },
-	m_LocalScale{ 1.0f },
+	m_TransformIsDirty{ false },
+	m_WorldTransform{ {0.f, 0.f, 1.f} },
+	m_LocalTransform{ {0.f, 0.f, 1.f} },
 	m_pParent{ nullptr }
 {
 }
@@ -124,98 +114,107 @@ void dae::GameObject::RenderImgui()
 
 void dae::GameObject::SetLocalPosition(const glm::vec3& position)
 {
-	m_LocalPosition = position;
-	SetPositionDirty();
+	m_LocalTransform.position = position;
+	SetTransformDirty();
 }
 
 void dae::GameObject::SetLocalRotation(const glm::vec3& rotation)
 {
-	m_LocalRotation = rotation;
-	SetRotationDirty();
+	m_LocalTransform.rotation = rotation;
+	SetTransformDirty();
 }
 
 void dae::GameObject::SetLocalScale(const glm::vec3& scale)
 {
-	m_LocalScale = scale;
-	SetScaleDirty();
+	m_LocalTransform.scale = scale;
+	SetTransformDirty();
+}
+
+void dae::GameObject::SetTransformDirty()
+{
+	m_TransformIsDirty = true;
+	for (auto child : m_pChildren)
+	{
+		child->SetTransformDirty();
+	}
 }
 
 const glm::vec3& dae::GameObject::GetWorldPosition()
 {
-	if (m_PositionIsDirty)
+	if (m_TransformIsDirty)
 	{
 		UpdateWorldPosition();
 	}
-	return m_WorldPosition;
+	return m_WorldTransform.position;
 }
 
 const glm::vec3& dae::GameObject::GetWorldRotation()
 {
-	if (m_RotationIsDirty)
+	if (m_TransformIsDirty)
 	{
 		UpdateWorldRotation();
 	}
-	return m_WorldRotation;
+	return m_WorldTransform.rotation;
 
 }
 
 const glm::vec3& dae::GameObject::GetWorldScale()
 {
-	if (m_ScaleIsDirty)
+	if (m_TransformIsDirty)
 	{
 		UpdateWorldScale();
 	}
-	return m_WorldScale;
+	return m_WorldTransform.scale;
 }
 
 void dae::GameObject::UpdateWorldPosition()
 {
 	if (m_pParent == nullptr)
 	{
-		m_WorldPosition = m_LocalPosition;
+		m_WorldTransform.position = m_LocalTransform.position;
 	}
 	else
 	{
-		m_WorldPosition = m_pParent->GetWorldPosition() + m_LocalPosition;
+		m_WorldTransform.position = m_pParent->GetWorldPosition() + m_LocalTransform.position;
 	}
 
-	m_PositionIsDirty = false;
+	m_TransformIsDirty = false;
 }
 
 void dae::GameObject::UpdateWorldRotation()
 {
 	if (m_pParent == nullptr)
 	{
-		m_WorldRotation = m_LocalRotation;
+		m_WorldTransform.rotation = m_LocalTransform.rotation;
 	}
 	else
 	{
-		m_WorldRotation = m_pParent->GetWorldRotation() + m_LocalRotation;
+		m_WorldTransform.rotation = m_pParent->GetWorldRotation() + m_LocalTransform.rotation;
 	}
 
-	m_RotationIsDirty = false;
+	m_TransformIsDirty = false;
 }
 
 void dae::GameObject::UpdateWorldScale()
 {
 	if (m_pParent == nullptr)
 	{
-		m_WorldScale = m_LocalScale;
+		m_WorldTransform.scale = m_LocalTransform.scale;
 	}
 	else
 	{
-		m_WorldScale = m_pParent->GetWorldScale() * m_LocalScale;
+		m_WorldTransform.scale = m_pParent->GetWorldScale() * m_LocalTransform.scale;
 	}
 
-	m_ScaleIsDirty = false;
+	m_TransformIsDirty = false;
 }
 
 void dae::GameObject::Rotate(const glm::vec3& rotation)
 {
-	m_LocalRotation = rotation;
+	m_LocalTransform.rotation = rotation;
 }
 
 void dae::GameObject::Scale(const glm::vec3& scale)
 {
-	m_LocalScale = scale;
+	m_LocalTransform.scale = scale;
 }

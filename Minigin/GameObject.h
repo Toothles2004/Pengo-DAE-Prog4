@@ -16,6 +16,13 @@ namespace dae
 	class GameObject final
 	{
 	public:
+		struct Transform
+		{
+			glm::vec3 position;
+			glm::vec3 rotation;
+			glm::vec3 scale;
+		};
+
 		void Update();
 		void FixedUpdate();
 		void LateUpdate();
@@ -65,16 +72,14 @@ namespace dae
 		void SetLocalPosition(const glm::vec3& position);
 		void SetLocalRotation(const glm::vec3& rotation);
 		void SetLocalScale(const glm::vec3& scale);
-		void SetPositionDirty() { m_PositionIsDirty = true; }
-		void SetRotationDirty() { m_RotationIsDirty = true; }
-		void SetScaleDirty() { m_ScaleIsDirty = true; }
+		void SetTransformDirty();
 
 		const glm::vec3& GetWorldPosition();
-		const glm::vec3& GetLocalPosition() const { return m_LocalPosition; }
+		const glm::vec3& GetLocalPosition() const { return m_LocalTransform.position; }
 		const glm::vec3& GetWorldRotation();
-		const glm::vec3& GetLocalRotation() const { return m_LocalRotation; }
+		const glm::vec3& GetLocalRotation() const { return m_LocalTransform.rotation; }
 		const glm::vec3& GetWorldScale();
-		const glm::vec3& GetLocalScale() const { return m_LocalScale; }
+		const glm::vec3& GetLocalScale() const { return m_LocalTransform.scale; }
 
 		void Rotate(const glm::vec3& rotation);
 		void Scale(const glm::vec3& scale);
@@ -98,16 +103,10 @@ namespace dae
 		void UpdateWorldScale();
 
 		bool m_ShouldDestroy;
-		bool m_PositionIsDirty;
-		bool m_RotationIsDirty;
-		bool m_ScaleIsDirty;
+		bool m_TransformIsDirty;
 
-		glm::vec3 m_WorldPosition;
-		glm::vec3 m_LocalPosition;
-		glm::vec3 m_WorldRotation;
-		glm::vec3 m_LocalRotation;
-		glm::vec3 m_WorldScale;
-		glm::vec3 m_LocalScale;
+		Transform m_WorldTransform;
+		Transform m_LocalTransform;
 
 		GameObject* m_pParent;
 		std::vector<GameObject*> m_pChildren{};
