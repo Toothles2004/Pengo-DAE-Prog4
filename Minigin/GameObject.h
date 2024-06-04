@@ -19,7 +19,7 @@ namespace dae
 		struct Transform
 		{
 			glm::vec3 position;
-			glm::vec3 rotation;
+			float rotation;
 			glm::vec3 scale;
 		};
 
@@ -70,19 +70,12 @@ namespace dae
 		bool GetShouldDestroy() const { return m_ShouldDestroy; }
 
 		void SetLocalPosition(const glm::vec3& position);
-		void SetLocalRotation(const glm::vec3& rotation);
+		void SetLocalRotation(const float rotation);
 		void SetLocalScale(const glm::vec3& scale);
 		void SetTransformDirty();
 
-		const glm::vec3& GetWorldPosition();
-		const glm::vec3& GetLocalPosition() const { return m_LocalTransform.position; }
-		const glm::vec3& GetWorldRotation();
-		const glm::vec3& GetLocalRotation() const { return m_LocalTransform.rotation; }
-		const glm::vec3& GetWorldScale();
-		const glm::vec3& GetLocalScale() const { return m_LocalTransform.scale; }
-
-		void Rotate(const glm::vec3& rotation);
-		void Scale(const glm::vec3& scale);
+		const Transform& GetWorldTransform();
+		const Transform& GetLocalTransform() const { return m_LocalTransform; }
 
 		void SetParent(GameObject* parent, bool keepWorldPosition);
 		GameObject* GetParent() const { return m_pParent; }
@@ -98,9 +91,7 @@ namespace dae
 		GameObject& operator=(GameObject&& other) = delete;
 
 	private:
-		void UpdateWorldPosition();
-		void UpdateWorldRotation();
-		void UpdateWorldScale();
+		void UpdateWorldTransform();
 
 		bool m_ShouldDestroy;
 		bool m_TransformIsDirty;

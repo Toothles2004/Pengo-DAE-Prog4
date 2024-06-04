@@ -134,11 +134,13 @@ void load()
 	//Enemy
 	auto goEnemy = std::make_unique<dae::GameObject>();
 	goEnemy->AddComponent<RenderComponent>("textures/penguinDown.png");
-	//goEnemy->AddComponent<MovementComponent>(200.f);
+	goEnemy->AddComponent<MovementComponent>(200.f);
 	goEnemy->AddComponent<PlayerComponent>();
 	goEnemy->AddComponent<HealthSubjectComponent>()->AddObserver(healthObserver.get());
 	goEnemy->AddComponent<ScoreSubjectComponent>()->AddObserver(scoreObserver.get());
 	goEnemy->SetLocalPosition({ 130, 250, 0 });
+	goEnemy->SetLocalScale({ 2, 2, 1 });
+	goEnemy->SetLocalRotation(90);
 
 	//Add input commands
 	daeEngine::KeyboardInput* keyboard = manager.GetKeyboard();
@@ -158,26 +160,6 @@ void load()
 	////Render imgui graphs
 	//go = std::make_shared<dae::GameObject>();
 	//go->AddComponent<GraphComponent>();
-	//scene.Add(go);
-
-	////Characters orbiting
-	////Empty object (center of orbit)
-	//auto goEmpty = std::make_shared<dae::GameObject>();
-	//goEmpty->SetLocalPosition({ 100, 250, 0 });
-	//scene.Add(goEmpty);
-
-	////Penguin
-	//auto goPenguin = std::make_shared<dae::GameObject>();
-	//goPenguin->SetParent(goEmpty.get(), false);
-	//goPenguin->AddComponent<RenderComponent>("textures/penguin.png");
-	//goPenguin->AddComponent<RotatorComponent>(20.f, -10.f);
-	//scene.Add(goPenguin);
-
-	////Enemy
-	//go = std::make_shared<dae::GameObject>();
-	//go->SetParent(goPenguin.get(), false);
-	//go->AddComponent<RenderComponent>("textures/enemy.png");
-	//go->AddComponent<RotatorComponent>(30.f, 7.f);
 	//scene.Add(go);
 }
 

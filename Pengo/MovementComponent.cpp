@@ -8,7 +8,7 @@ MovementComponent::MovementComponent(dae::GameObject* owner, float speed)
 
 void MovementComponent::Move(glm::vec3 direction) const
 {
-	auto position = m_pOwner->GetLocalPosition();
+	auto position = m_pOwner->GetLocalTransform().position;
 	position += direction * m_MovementSpeed * daeEngine::GameTime::GetDeltaTime();
 	m_pOwner->SetLocalPosition(position);
 }

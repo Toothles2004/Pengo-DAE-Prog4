@@ -9,7 +9,7 @@ PlayerMovingState::~PlayerMovingState()
 
 void PlayerMovingState::Update()
 {
-	auto position = m_pOwner->GetLocalPosition();
+	auto position = m_pOwner->GetLocalTransform().position;
 	position += m_Direction * m_MovementSpeed * daeEngine::GameTime::GetDeltaTime();
 	m_pOwner->SetLocalPosition(position);
 	if (m_Direction.x > 0)
