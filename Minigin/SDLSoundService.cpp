@@ -11,6 +11,7 @@ namespace daeEngine
 {
 	struct SoundSettings
 	{
+		int channel{};
 		int id{};
 		int volume{};
 		int loops{};
@@ -22,7 +23,7 @@ namespace daeEngine
 		explicit SoundServiceImpl(int amountOfChannels)
 		{
 			m_AmountOfChannels = std::max(1, amountOfChannels);
-			if (Mix_Init(MIX_INIT_MP3) < 0) 
+			if (Mix_Init(MIX_INIT_MP3) < 0)
 			{
 				printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
 				// Handle initialization error
@@ -34,15 +35,22 @@ namespace daeEngine
 				// Handle audio opening error
 			}
 
-			for(int index{}; index < m_AmountOfChannels; ++index)
-			{
-				m_PlaySoundThread.emplace_back(std::jthread{ [&] {PlaySoundsInQueue(); } });
-				m_SoundQueue.emplace_back(std::deque<SoundSettings>());
-			}
+			m_LoadSoundThread = std::jthread{ [&] { LoadSoundToMap(); } };
+			m_PlaySoundThread = std::jthread{ [&] {PlaySoundsInQueue(); } };
 		}
 
 		~SoundServiceImpl()
 		{
+			if (m_PlaySoundThread.joinable())
+			{
+				m_PlaySoundThread.join();
+			}
+
+			if (m_LoadSoundThread.joinable())
+			{
+				m_LoadSoundThread.join();
+			}
+
 			for (const auto& music : m_pMusic)
 			{
 				Mix_FreeChunk(music.second);
@@ -52,30 +60,46 @@ namespace daeEngine
 			m_ShouldPlaySounds = false;
 		}
 
-		void LoadSound(const std::string& filename, int id)
+		void LoadSoundToQueue(const std::string& filename, int id)
 		{
-			
-			auto it = m_pMusic.find(id);
-			if (it != m_pMusic.end()) 
-			{
-				m_pMusic[id] = Mix_LoadWAV(filename.c_str());
-			}
-			else 
-			{
-				m_pMusic.emplace(std::make_pair(id, Mix_LoadWAV(filename.c_str())));
-			}
+			std::lock_guard<std::mutex> musicQueueLock3(m_MusicMutex);
+			m_LoadQueue.emplace_back(id, filename);
+		}
 
-			if (m_pMusic[id] == NULL)
+		void LoadSoundToMap()
+		{
+			while (m_ShouldPlaySounds)
 			{
-				printf("Failed to load music! SDL_mixer Error: %s\n", Mix_GetError());
-				// Handle loading error
+				if (!m_LoadQueue.empty())
+				{
+					std::lock_guard<std::mutex> musicQueueLock2(m_MusicMutex);
+					std::pair<int, std::string> sound = m_LoadQueue.front();
+					m_LoadQueue.pop_front();
+
+					auto it = m_pMusic.find(sound.first);
+					if (it != m_pMusic.end())
+					{
+						m_pMusic[sound.first] = Mix_LoadWAV(sound.second.c_str());
+					}
+					else
+					{
+						m_pMusic.emplace(std::make_pair(sound.first, Mix_LoadWAV(sound.second.c_str())));
+					}
+
+					if (m_pMusic[sound.first] == NULL)
+					{
+						printf("Failed to load music! SDL_mixer Error: %s\n", Mix_GetError());
+						// Handle loading error
+					}
+				}
 			}
 		}
 
 		void PlaySound(const SoundSettings& settings, int channel)
 		{
+			std::lock_guard<std::mutex> musicQueueLock(m_MusicMutex);
 			auto it = m_pMusic.find(settings.id);
-			if(it->second != NULL)
+			if (it->second != NULL)
 			{
 				Mix_Volume(channel, settings.volume);
 				//-1 is infinite loops
@@ -90,36 +114,36 @@ namespace daeEngine
 
 		void AddSoundToQueue(int channel, int id, int volume, int loops)
 		{
-			m_SoundQueue[channel].push_back({id, volume, loops});
+			std::lock_guard<std::mutex> soundQueueLock(m_QueueMutex);
+			m_SoundQueue.push_back({ channel, id, volume, loops });
 		}
 
 		void PlaySoundsInQueue()
 		{
-			m_ChannelMutex.lock();
-			int channel = m_ThreadChannels;
-			m_ThreadChannels++;
-			m_ChannelMutex.unlock();
-
+			SoundSettings sound = SoundSettings();
 
 			while (m_ShouldPlaySounds)
 			{
-				m_QueueMutex.lock();
-				SoundSettings sound = SoundSettings();
 				bool foundSound{ false };
-				if (!m_SoundQueue[channel].empty())
+				if (m_QueueMutex.try_lock())
 				{
-					sound = m_SoundQueue[channel].front();
-					if (const auto it = m_pMusic.find(sound.id); it == m_pMusic.end())
+					if (!m_SoundQueue.empty())
 					{
-						continue;
+						sound = m_SoundQueue.front();
+						if (const auto it = m_pMusic.find(sound.id); it == m_pMusic.end())
+						{
+							m_QueueMutex.unlock();
+							continue;
+						}
+						m_SoundQueue.pop_front();
+						foundSound = true;
 					}
-					m_SoundQueue[channel].pop_front();
-					foundSound = true;
+					m_QueueMutex.unlock();
 				}
-				m_QueueMutex.unlock();
+
 				if (foundSound)
 				{
-					PlaySound(sound, channel);
+					PlaySound(sound, sound.channel);
 				}
 			}
 		}
@@ -131,15 +155,16 @@ namespace daeEngine
 
 	private:
 		std::unordered_map<int, Mix_Chunk*> m_pMusic;
-		std::vector<std::jthread> m_PlaySoundThread;
-		std::vector<std::deque<SoundSettings>> m_SoundQueue;
+		std::jthread m_PlaySoundThread;
+		std::jthread m_LoadSoundThread;
+		std::deque<SoundSettings> m_SoundQueue;
+		std::deque<std::pair<int, std::string>> m_LoadQueue;
 		bool m_ShouldPlaySounds{ true };
-		int m_CurrentChannelPlaying{ -1 };
 		int m_AmountOfChannels{ 0 };
-		std::mutex m_QueueMutex;
 
+		std::mutex m_QueueMutex;
+		std::mutex m_MusicMutex;
 		std::mutex m_ChannelMutex;
-		int m_ThreadChannels{ 0 };
 	};
 
 	SDLSoundService::SDLSoundService(int amountOfChannels)
@@ -151,7 +176,7 @@ namespace daeEngine
 
 	void SDLSoundService::LoadSound(const std::string& filename, int id)
 	{
-		m_pImpl->LoadSound(filename, id);
+		m_pImpl->LoadSoundToQueue(filename, id);
 	}
 
 	void SDLSoundService::PlaySound(int channel, int id, int volume, int amountOfLoops)
