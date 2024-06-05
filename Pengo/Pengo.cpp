@@ -38,7 +38,7 @@ void load()
 	int amountOfChannels{ 2 };
 	daeEngine::SoundServiceLocator::RegisterSoundService(std::make_unique<daeEngine::SDLSoundService>(amountOfChannels));
 	auto& soundService = daeEngine::SoundServiceLocator::GetSoundService();
-	soundService.LoadSound("..\\Data\\sounds\\MainBGM.mp3", 0);
+	soundService.LoadSound("..\\Data\\sounds\\mainBGM.mp3", 0);
 	soundService.PlaySound(0, 0, 10, -1);
 
 	//Background
