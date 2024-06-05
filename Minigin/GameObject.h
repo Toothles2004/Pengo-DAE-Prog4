@@ -57,13 +57,15 @@ namespace dae
 		}
 
 		template<typename T, typename... Args>
-		std::shared_ptr<T> AddComponent(Args&& ... args)
+		T* AddComponent(Args&&... args)
 		{
 			static_assert(std::is_base_of<daeEngine::BasicComponent, T>::value, "T must derive from Component");
 
-			auto newComponent = std::make_shared<T>(this, args...);
-			m_pComponents.emplace(typeid(T), newComponent);
-			return newComponent;
+			std::unique_ptr<T> newComponent = std::make_unique<T>(this, args...);
+			T* component = newComponent.get();
+			m_pComponents.emplace(typeid(T), std::move(newComponent));
+
+			return component;
 		}
 
 		void MarkForDeath() { m_ShouldDestroy = true; }
@@ -103,6 +105,6 @@ namespace dae
 		std::vector<GameObject*> m_pChildren{};
 
 		//Can only have 1 component of each type
-		std::unordered_map<std::type_index, std::shared_ptr<daeEngine::BasicComponent>> m_pComponents{};
+		std::unordered_map<std::type_index, std::unique_ptr<daeEngine::BasicComponent>> m_pComponents{};
 	};
 }
