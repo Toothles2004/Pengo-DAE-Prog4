@@ -85,7 +85,7 @@ void load()
 
 	//Penguin display
 	go = std::make_unique<dae::GameObject>();
-	go->AddComponent<TextComponent>("# Lives: 3", font);
+	go->AddComponent<TextComponent>("# Lives: 4", font);
 	auto healthObserver = go->AddComponent<HealthDisplayObserverComponent>();
 	go->SetLocalPosition({ 5, 130, 0 });
 	scene.Add(std::move(go));
@@ -98,7 +98,7 @@ void load()
 
 	//Enemy display
 	go = std::make_unique<dae::GameObject>();
-	go->AddComponent<TextComponent>("# Lives: 3", font);
+	go->AddComponent<TextComponent>("# Lives: 4", font);
 	healthObserver = go->AddComponent<HealthDisplayObserverComponent>();
 	go->SetLocalPosition({ 5, 160, 0 });
 	scene.Add(std::move(go));
@@ -139,8 +139,6 @@ void load()
 	goEnemy->AddComponent<HealthSubjectComponent>()->AddObserver(healthObserver.get());
 	goEnemy->AddComponent<ScoreSubjectComponent>()->AddObserver(scoreObserver.get());
 	goEnemy->SetLocalPosition({ 130, 250, 0 });
-	goEnemy->SetLocalScale({ 2, 2, 1 });
-	goEnemy->SetLocalRotation(90);
 
 	//Add input commands
 	daeEngine::KeyboardInput* keyboard = manager.GetKeyboard();

@@ -3,7 +3,7 @@
 
 HealthSubjectComponent::HealthSubjectComponent(dae::GameObject* owner)
 	: BasicComponent(owner),
-	m_Health(3)
+	m_Health(4)
 {
 	m_pEvent.emplace_back("Damaged");
 	m_pEvent.emplace_back("Died");
