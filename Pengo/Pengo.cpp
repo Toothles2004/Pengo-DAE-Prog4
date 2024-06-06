@@ -17,9 +17,6 @@
 #include "Scene.h"
 #include "TextComponent.h"
 #include "InputManager.h"
-//#include "Command.h"
-#include <iostream>
-
 #include "DamageCommand.h"
 #include "HealthDisplayObserverComponent.h"
 #include "HealthSubjectComponent.h"
@@ -31,19 +28,172 @@
 #include "PlayerComponent.h"
 #include "SoundServiceLocator.h"
 
+#include <iostream>
+#include <fstream>
+#include <sstream>
+
+std::vector<std::vector<int>> ReadLevelLayoutFromFile(const std::string& filename)
+{
+	std::ifstream file(filename);
+	std::vector<std::vector<int>> layout;
+	std::string line;
+
+	while (std::getline(file, line))
+	{
+		// Skip comments and empty lines
+		if (!line.empty() && line[0] != '"' && line[0] != ';')
+		{
+			std::istringstream iss(line);
+			std::vector<int> row;
+
+			char valueChar; // Use char to capture non-digit characters
+			while (iss >> valueChar)
+			{
+				if (isdigit(valueChar))
+				{
+					int value = valueChar - '0'; // Convert char to int
+					// Ensure the value is within the valid range
+					if (value >= 0 && value <= 5)
+					{
+						row.push_back(value);
+					}
+				}
+			}
+
+			layout.push_back(row);
+		}
+	}
+
+	return layout;
+}
+
 void load()
 {
 	auto& scene = dae::SceneManager::GetInstance().CreateScene("Programming 4 assignment");
+	int tileSize{ 16 };
 
+	//sound
 	int amountOfChannels{ 2 };
 	daeEngine::SoundServiceLocator::RegisterSoundService(std::make_unique<daeEngine::SDLSoundService>(amountOfChannels));
 	auto& soundService = daeEngine::SoundServiceLocator::GetSoundService();
 	soundService.LoadSound("..\\Data\\sounds\\mainBGM.mp3", 0);
 	soundService.PlaySound(0, 0, 10, -1);
 
-	//Background
-	auto goBackground = scene.CreateGameObject();
-	goBackground->AddComponent<RenderComponent>("background.tga");
+	std::vector<std::vector<int>> levelLayout = ReadLevelLayoutFromFile("..\\Data\\levels\\level1.txt");
+
+	// Iterate over the layout to create game objects
+	for (size_t y{}; y < levelLayout.size(); ++y)
+	{
+		
+		for (size_t x{}; x < levelLayout[y].size(); ++x)
+		{
+			int objectType = levelLayout[y][x];
+			if(objectType == 0)
+			{
+				continue;
+			}
+			if(objectType == 1)
+			{
+				auto iceBlock = scene.CreateGameObject();
+				iceBlock->AddComponent<RenderComponent>("textures/blocks.png", glm::vec2{0, 0}, glm::vec2{9, 4});
+				iceBlock->SetLocalPosition({ x * tileSize, y * tileSize +200, 0 });
+				continue;
+			}
+			if (objectType == 2)
+			{
+				auto egg = scene.CreateGameObject();
+				egg->AddComponent<RenderComponent>("textures/blocks.png", glm::vec2{ 1, 0 }, glm::vec2{ 9, 4 });
+				egg->SetLocalPosition({ x * tileSize, y * tileSize+200, 0 });
+				continue;
+			}
+			if (objectType == 3)
+			{
+				auto snoBee = scene.CreateGameObject();
+				snoBee->AddComponent<RenderComponent>("textures/snoBee1.png");
+				snoBee->SetLocalPosition({ x * tileSize, y * tileSize+200, 0 });
+				continue;
+			}
+			if (objectType == 4)
+			{
+				auto diamond = scene.CreateGameObject();
+				diamond->AddComponent<RenderComponent>("textures/blocks.png", glm::vec2{ 0, 2 }, glm::vec2{ 9, 4 });
+				diamond->SetLocalPosition({ x * tileSize, y * tileSize+200, 0 });
+				continue;
+			}
+			if (objectType == 5)
+			{
+				//Penguin
+				auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 12);
+				/*//First player display
+				auto goFirstPlayerDisplay = scene.CreateGameObject();
+				goFirstPlayerDisplay->AddComponent<TextComponent>("# Lives: 4", font);
+				auto healthObserver = goFirstPlayerDisplay->AddComponent<HealthDisplayObserverComponent>();
+				goFirstPlayerDisplay->SetLocalPosition({ 5, 130, 0 });
+
+				//First player score
+				auto goFirstPlayerScore = scene.CreateGameObject();
+				goFirstPlayerScore->AddComponent<TextComponent>("Score: 0", font);
+				auto scoreObserver = goFirstPlayerScore->AddComponent<ScoreDisplayObserverComponent>();
+				goFirstPlayerScore->SetLocalPosition({ 5, 145, 0 });
+
+				//First player
+				auto goFirstPlayer = scene.CreateGameObject();
+				goFirstPlayer->AddComponent<RenderComponent>("textures/penguinDown.png");
+				//goPenguin->AddComponent<MovementComponent>(100.f);
+				goFirstPlayer->AddComponent<PlayerComponent>();
+				goFirstPlayer->AddComponent<HealthSubjectComponent>()->AddObserver(healthObserver);
+				goFirstPlayer->AddComponent<ScoreSubjectComponent>()->AddObserver(scoreObserver);
+				goFirstPlayer->SetLocalPosition({ 100, 250, 0 });
+
+				//Add input commands
+				auto& manager = dae::InputManager::GetInstance();
+				daeEngine::ControllerInput* controller = new daeEngine::ControllerInput(0);
+				controller->AddKeyBind(daeEngine::ButtonState::pressed, daeEngine::ControllerButton::dPadUp, std::make_shared<MovementCommand>(goFirstPlayer, glm::vec3(0, -1, 0)));
+				controller->AddKeyBind(daeEngine::ButtonState::pressed, daeEngine::ControllerButton::dPadDown, std::make_shared<MovementCommand>(goFirstPlayer, glm::vec3(0, 1, 0)));
+				controller->AddKeyBind(daeEngine::ButtonState::pressed, daeEngine::ControllerButton::dPadLeft, std::make_shared<MovementCommand>(goFirstPlayer, glm::vec3(-1, 0, 0)));
+				controller->AddKeyBind(daeEngine::ButtonState::pressed, daeEngine::ControllerButton::dPadRight, std::make_shared<MovementCommand>(goFirstPlayer, glm::vec3(1, 0, 0)));
+				controller->AddKeyBind(daeEngine::ButtonState::down, daeEngine::ControllerButton::x, std::make_shared<DamageCommand>(goFirstPlayer));
+				controller->AddKeyBind(daeEngine::ButtonState::down, daeEngine::ControllerButton::a, std::make_shared<IncreaseScoreCommand>(goFirstPlayer, 10));
+				controller->AddKeyBind(daeEngine::ButtonState::down, daeEngine::ControllerButton::b, std::make_shared<IncreaseScoreCommand>(goFirstPlayer, 100));
+				manager.AddController(controller);*/
+
+				//Second player display
+				auto goSecondPlayerDisplay = scene.CreateGameObject();
+				goSecondPlayerDisplay->AddComponent<TextComponent>("# Lives: 4", font);
+				auto healthObserver = goSecondPlayerDisplay->AddComponent<HealthDisplayObserverComponent>();
+				goSecondPlayerDisplay->SetLocalPosition({ 5, 160, 0 });
+
+				//Second player score
+				auto goSecondPlayerScore = scene.CreateGameObject();
+				goSecondPlayerScore->AddComponent<TextComponent>("Score: 0", font);
+				auto scoreObserver = goSecondPlayerScore->AddComponent<ScoreDisplayObserverComponent>();
+				goSecondPlayerScore->SetLocalPosition({ 5, 175, 0 });
+
+				//Second player
+				auto goSecondPlayer = scene.CreateGameObject();
+				goSecondPlayer->AddComponent<RenderComponent>("textures/penguinDown.png");
+				goSecondPlayer->AddComponent<MovementComponent>(200.f);
+				goSecondPlayer->AddComponent<PlayerComponent>();
+				goSecondPlayer->AddComponent<HealthSubjectComponent>()->AddObserver(healthObserver);
+				goSecondPlayer->AddComponent<ScoreSubjectComponent>()->AddObserver(scoreObserver);
+				goSecondPlayer->SetLocalPosition({ x * tileSize, y * tileSize + 200, 0 });
+
+				//Add input commands
+				daeEngine::KeyboardInput* keyboard = dae::InputManager::GetInstance().GetKeyboard();
+				keyboard->AddKeyBind(daeEngine::ButtonState::pressed, SDL_SCANCODE_W, std::make_shared<MovementCommand>(goSecondPlayer, glm::vec3(0, -1, 0)));
+				keyboard->AddKeyBind(daeEngine::ButtonState::pressed, SDL_SCANCODE_S, std::make_shared<MovementCommand>(goSecondPlayer, glm::vec3(0, 1, 0)));
+				keyboard->AddKeyBind(daeEngine::ButtonState::pressed, SDL_SCANCODE_A, std::make_shared<MovementCommand>(goSecondPlayer, glm::vec3(-1, 0, 0)));
+				keyboard->AddKeyBind(daeEngine::ButtonState::pressed, SDL_SCANCODE_D, std::make_shared<MovementCommand>(goSecondPlayer, glm::vec3(1, 0, 0)));
+				keyboard->AddKeyBind(daeEngine::ButtonState::up, SDL_SCANCODE_W, std::make_shared<MovementCommand>(goSecondPlayer, glm::vec3(0, 0, 0)));
+				keyboard->AddKeyBind(daeEngine::ButtonState::up, SDL_SCANCODE_S, std::make_shared<MovementCommand>(goSecondPlayer, glm::vec3(0, 0, 0)));
+				keyboard->AddKeyBind(daeEngine::ButtonState::up, SDL_SCANCODE_A, std::make_shared<MovementCommand>(goSecondPlayer, glm::vec3(0, 0, 0)));
+				keyboard->AddKeyBind(daeEngine::ButtonState::up, SDL_SCANCODE_D, std::make_shared<MovementCommand>(goSecondPlayer, glm::vec3(0, 0, 0)));
+				keyboard->AddKeyBind(daeEngine::ButtonState::down, SDL_SCANCODE_C, std::make_shared<DamageCommand>(goSecondPlayer));
+				keyboard->AddKeyBind(daeEngine::ButtonState::down, SDL_SCANCODE_Z, std::make_shared<IncreaseScoreCommand>(goSecondPlayer, 10));
+				keyboard->AddKeyBind(daeEngine::ButtonState::down, SDL_SCANCODE_X, std::make_shared<IncreaseScoreCommand>(goSecondPlayer, 100));
+			}
+		}
+	}
 
 	//Logo
 	auto goLogo = scene.CreateGameObject();
@@ -75,72 +225,6 @@ void load()
 	auto goInfo = scene.CreateGameObject();
 	goInfo->AddComponent<TextComponent>("When taking damage a sound plays", font);
 	goInfo->SetLocalPosition({ 5, 105, 0 });
-
-	//Penguin display
-	auto goPenguinDisplay = scene.CreateGameObject();
-	goPenguinDisplay->AddComponent<TextComponent>("# Lives: 4", font);
-	auto healthObserver = goPenguinDisplay->AddComponent<HealthDisplayObserverComponent>();
-	goPenguinDisplay->SetLocalPosition({ 5, 130, 0 });
-
-	auto goPenguinScore = scene.CreateGameObject();
-	goPenguinScore->AddComponent<TextComponent>("Score: 0", font);
-	auto scoreObserver = goPenguinScore->AddComponent<ScoreDisplayObserverComponent>();
-	goPenguinScore->SetLocalPosition({ 5, 145, 0 });
-
-	//Enemy display
-	auto goEnemyDisplay = scene.CreateGameObject();
-	goEnemyDisplay->AddComponent<TextComponent>("# Lives: 4", font);
-	healthObserver = goEnemyDisplay->AddComponent<HealthDisplayObserverComponent>();
-	goEnemyDisplay->SetLocalPosition({ 5, 160, 0 });
-
-	auto goEnemyScore = scene.CreateGameObject();
-	goEnemyScore->AddComponent<TextComponent>("Score: 0", font);
-	scoreObserver = goEnemyScore->AddComponent<ScoreDisplayObserverComponent>();
-	goEnemyScore->SetLocalPosition({ 5, 175, 0 });
-
-	//Penguin
-	auto goPenguin = scene.CreateGameObject();
-	goPenguin->AddComponent<RenderComponent>("textures/penguinDown.png");
-	//goPenguin->AddComponent<MovementComponent>(100.f);
-	goPenguin->AddComponent<PlayerComponent>();
-	goPenguin->AddComponent<HealthSubjectComponent>()->AddObserver(healthObserver);
-	goPenguin->AddComponent<ScoreSubjectComponent>()->AddObserver(scoreObserver);
-	goPenguin->SetLocalPosition({ 100, 250, 0 });
-
-	//Add input commands
-	auto& manager = dae::InputManager::GetInstance();
-	daeEngine::ControllerInput* controller = new daeEngine::ControllerInput(0);
-	controller->AddKeyBind(daeEngine::ButtonState::pressed, daeEngine::ControllerButton::dPadUp, std::make_shared<MovementCommand>(goPenguin, glm::vec3(0, -1, 0)));
-	controller->AddKeyBind(daeEngine::ButtonState::pressed, daeEngine::ControllerButton::dPadDown, std::make_shared<MovementCommand>(goPenguin, glm::vec3(0, 1, 0)));
-	controller->AddKeyBind(daeEngine::ButtonState::pressed, daeEngine::ControllerButton::dPadLeft, std::make_shared<MovementCommand>(goPenguin, glm::vec3(-1, 0, 0)));
-	controller->AddKeyBind(daeEngine::ButtonState::pressed, daeEngine::ControllerButton::dPadRight, std::make_shared<MovementCommand>(goPenguin, glm::vec3(1, 0, 0)));
-	controller->AddKeyBind(daeEngine::ButtonState::down, daeEngine::ControllerButton::x, std::make_shared<DamageCommand>(goPenguin));
-	controller->AddKeyBind(daeEngine::ButtonState::down, daeEngine::ControllerButton::a, std::make_shared<IncreaseScoreCommand>(goPenguin, 10));
-	controller->AddKeyBind(daeEngine::ButtonState::down, daeEngine::ControllerButton::b, std::make_shared<IncreaseScoreCommand>(goPenguin, 100));
-	manager.AddController(controller);
-
-	//Enemy
-	auto goEnemy = scene.CreateGameObject();
-	goEnemy->AddComponent<RenderComponent>("textures/penguinDown.png");
-	goEnemy->AddComponent<MovementComponent>(200.f);
-	goEnemy->AddComponent<PlayerComponent>();
-	goEnemy->AddComponent<HealthSubjectComponent>()->AddObserver(healthObserver);
-	goEnemy->AddComponent<ScoreSubjectComponent>()->AddObserver(scoreObserver);
-	goEnemy->SetLocalPosition({ 130, 250, 0 });
-
-	//Add input commands
-	daeEngine::KeyboardInput* keyboard = manager.GetKeyboard();
-	keyboard->AddKeyBind(daeEngine::ButtonState::pressed, SDL_SCANCODE_W, std::make_shared<MovementCommand>(goEnemy, glm::vec3(0, -1, 0)));
-	keyboard->AddKeyBind(daeEngine::ButtonState::pressed, SDL_SCANCODE_S, std::make_shared<MovementCommand>(goEnemy, glm::vec3(0, 1, 0)));
-	keyboard->AddKeyBind(daeEngine::ButtonState::pressed, SDL_SCANCODE_A, std::make_shared<MovementCommand>(goEnemy, glm::vec3(-1, 0, 0)));
-	keyboard->AddKeyBind(daeEngine::ButtonState::pressed, SDL_SCANCODE_D, std::make_shared<MovementCommand>(goEnemy, glm::vec3(1, 0, 0)));
-	keyboard->AddKeyBind(daeEngine::ButtonState::up, SDL_SCANCODE_W, std::make_shared<MovementCommand>(goEnemy, glm::vec3(0, 0, 0)));
-	keyboard->AddKeyBind(daeEngine::ButtonState::up, SDL_SCANCODE_S, std::make_shared<MovementCommand>(goEnemy, glm::vec3(0, 0, 0)));
-	keyboard->AddKeyBind(daeEngine::ButtonState::up, SDL_SCANCODE_A, std::make_shared<MovementCommand>(goEnemy, glm::vec3(0, 0, 0)));
-	keyboard->AddKeyBind(daeEngine::ButtonState::up, SDL_SCANCODE_D, std::make_shared<MovementCommand>(goEnemy, glm::vec3(0, 0, 0)));
-	keyboard->AddKeyBind(daeEngine::ButtonState::down, SDL_SCANCODE_C, std::make_shared<DamageCommand>(goEnemy));
-	keyboard->AddKeyBind(daeEngine::ButtonState::down, SDL_SCANCODE_Z, std::make_shared<IncreaseScoreCommand>(goEnemy, 10));
-	keyboard->AddKeyBind(daeEngine::ButtonState::down, SDL_SCANCODE_X, std::make_shared<IncreaseScoreCommand>(goEnemy, 100));
 
 	////Render imgui graphs
 	//go = std::make_shared<dae::GameObject>();

@@ -3,6 +3,7 @@
 "2" = snowBeeEgg
 "3" = snowBee
 "4" = diamond
+"5" = player
 
 0 1 0 0 0 0 0 0 0 0 0 1 0
 0 2 0 1 1 1 1 1 1 4 0 1 0

@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-
+#include <glm/vec2.hpp>
 #include "GameObject.h"
 #include "ResourceManager.h"
 #include "BasicComponent.h"
@@ -11,6 +11,7 @@ public:
     explicit RenderComponent(dae::GameObject* owner);
     explicit RenderComponent(dae::GameObject* owner, const std::shared_ptr<dae::Texture2D>& texture);
     explicit RenderComponent(dae::GameObject* owner, const std::string& texture);
+    explicit RenderComponent(dae::GameObject* owner, const std::string& texture, const glm::vec2 positionInImage, const glm::vec2 framesInImage);
 
     void Render() const override;
 
@@ -19,5 +20,8 @@ public:
 
 private:
     std::shared_ptr<dae::Texture2D> m_pTexture;
+    bool m_bPartOfImage{ false };
+    glm::vec2 m_PositionInImage;
+    glm::vec2 m_FramesInImage;
 };
 

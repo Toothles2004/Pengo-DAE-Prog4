@@ -89,6 +89,25 @@ void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const
 	SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst, angle, center.get(), SDL_FLIP_NONE);
 }
 
+void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float angle, const glm::vec3 scale, const glm::vec2 positionInImage, const glm::vec2 framesInImage) const
+{
+	SDL_Rect dst{};
+	SDL_Rect src{};
+	dst.x = static_cast<int>(x);
+	dst.y = static_cast<int>(y);
+	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &dst.w, &dst.h);
+	dst.w = dst.w * static_cast<int>(scale.x);
+	dst.h = dst.h * static_cast<int>(scale.y);
+	src.w = dst.w / static_cast<int>(framesInImage.x);
+	src.h = dst.h / static_cast<int>(framesInImage.y);
+	src.x = src.w * static_cast<int>(positionInImage.x);
+	src.y = src.h * static_cast<int>(positionInImage.y);
+	dst.w = src.w;
+	dst.h = src.h;
+	const std::unique_ptr<SDL_Point> center{ std::make_unique<SDL_Point>(dst.w / 2, dst.h / 2) };
+	SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), &src, &dst, angle, center.get(), SDL_FLIP_NONE);
+}
+
 void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height, const float angle, glm::vec3 scale) const
 {
 	SDL_Rect dst{};
