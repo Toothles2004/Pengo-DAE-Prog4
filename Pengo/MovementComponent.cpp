@@ -12,5 +12,3 @@ void MovementComponent::Move(glm::vec3 direction) const
 	position += direction * m_MovementSpeed * daeEngine::GameTime::GetDeltaTime();
 	m_pOwner->SetLocalPosition(position);
 }
-
-

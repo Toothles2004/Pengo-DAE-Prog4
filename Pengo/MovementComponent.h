@@ -12,4 +12,3 @@ public:
 private:
 	float m_MovementSpeed;
 };
-

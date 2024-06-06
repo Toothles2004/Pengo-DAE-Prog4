@@ -83,8 +83,8 @@ void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const
 	dst.x = static_cast<int>(x);
 	dst.y = static_cast<int>(y);
 	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &dst.w, &dst.h);
-	dst.w = dst.w * static_cast<int>(scale.x);
-	dst.h = dst.h * static_cast<int>(scale.y);
+	dst.w = static_cast<int>(dst.w * scale.x);
+	dst.h = static_cast<int>(dst.h * scale.y);
 	const std::unique_ptr<SDL_Point> center{ std::make_unique<SDL_Point>(dst.w / 2, dst.h / 2) };
 	SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst, angle, center.get(), SDL_FLIP_NONE);
 }
@@ -96,14 +96,12 @@ void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const
 	dst.x = static_cast<int>(x);
 	dst.y = static_cast<int>(y);
 	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &dst.w, &dst.h);
-	dst.w = dst.w * static_cast<int>(scale.x);
-	dst.h = dst.h * static_cast<int>(scale.y);
 	src.w = dst.w / static_cast<int>(framesInImage.x);
 	src.h = dst.h / static_cast<int>(framesInImage.y);
 	src.x = src.w * static_cast<int>(positionInImage.x);
 	src.y = src.h * static_cast<int>(positionInImage.y);
-	dst.w = src.w;
-	dst.h = src.h;
+	dst.w = static_cast<int>(src.w * scale.x);
+	dst.h = static_cast<int>(src.h * scale.y);
 	const std::unique_ptr<SDL_Point> center{ std::make_unique<SDL_Point>(dst.w / 2, dst.h / 2) };
 	SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), &src, &dst, angle, center.get(), SDL_FLIP_NONE);
 }

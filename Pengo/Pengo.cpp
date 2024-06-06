@@ -70,7 +70,9 @@ std::vector<std::vector<int>> ReadLevelLayoutFromFile(const std::string& filenam
 void load()
 {
 	auto& scene = dae::SceneManager::GetInstance().CreateScene("Programming 4 assignment");
-	int tileSize{ 16 };
+	float scale{ 1.5 };
+	const int tileSize{ static_cast<int>(16*scale) };
+	const glm::vec2 offset{ tileSize / 2 + 150, tileSize / 2 + 50 };
 
 	//sound
 	int amountOfChannels{ 2 };
@@ -79,12 +81,17 @@ void load()
 	soundService.LoadSound("..\\Data\\sounds\\mainBGM.mp3", 0);
 	soundService.PlaySound(0, 0, 10, -1);
 
+	//background
+	auto goBackground = scene.CreateGameObject();
+	goBackground->AddComponent<RenderComponent>("textures/level.png", glm::vec2{0, 0}, glm::vec2{2, 1});
+	goBackground->SetLocalPosition({ offset.x - tileSize/2, offset.y - tileSize/2, 0 });
+	goBackground->SetLocalScale({ scale, scale, 1.f });
+
 	std::vector<std::vector<int>> levelLayout = ReadLevelLayoutFromFile("..\\Data\\levels\\level1.txt");
 
 	// Iterate over the layout to create game objects
 	for (size_t y{}; y < levelLayout.size(); ++y)
 	{
-		
 		for (size_t x{}; x < levelLayout[y].size(); ++x)
 		{
 			int objectType = levelLayout[y][x];
@@ -96,33 +103,37 @@ void load()
 			{
 				auto iceBlock = scene.CreateGameObject();
 				iceBlock->AddComponent<RenderComponent>("textures/blocks.png", glm::vec2{0, 0}, glm::vec2{9, 4});
-				iceBlock->SetLocalPosition({ x * tileSize, y * tileSize +200, 0 });
+				iceBlock->SetLocalPosition({ x * tileSize + offset.x, y * tileSize + offset.y, 0 });
+				iceBlock->SetLocalScale({ scale, scale, 1.f });
 				continue;
 			}
 			if (objectType == 2)
 			{
 				auto egg = scene.CreateGameObject();
 				egg->AddComponent<RenderComponent>("textures/blocks.png", glm::vec2{ 1, 0 }, glm::vec2{ 9, 4 });
-				egg->SetLocalPosition({ x * tileSize, y * tileSize+200, 0 });
+				egg->SetLocalPosition({ x * tileSize + offset.x, y * tileSize + offset.y, 0 });
+				egg->SetLocalScale({ scale, scale, 1.f });
 				continue;
 			}
 			if (objectType == 3)
 			{
 				auto snoBee = scene.CreateGameObject();
 				snoBee->AddComponent<RenderComponent>("textures/snoBee1.png");
-				snoBee->SetLocalPosition({ x * tileSize, y * tileSize+200, 0 });
+				snoBee->SetLocalPosition({ x * tileSize + offset.x, y * tileSize + offset.y, 0 });
+				snoBee->SetLocalScale({ scale, scale, 1.f });
 				continue;
 			}
 			if (objectType == 4)
 			{
 				auto diamond = scene.CreateGameObject();
 				diamond->AddComponent<RenderComponent>("textures/blocks.png", glm::vec2{ 0, 2 }, glm::vec2{ 9, 4 });
-				diamond->SetLocalPosition({ x * tileSize, y * tileSize+200, 0 });
+				diamond->SetLocalPosition({ x * tileSize + offset.x, y * tileSize + offset.y, 0 });
+				diamond->SetLocalScale({ scale, scale, 1.f });
 				continue;
 			}
 			if (objectType == 5)
 			{
-				//Penguin
+				//Player
 				auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 12);
 				/*//First player display
 				auto goFirstPlayerDisplay = scene.CreateGameObject();
@@ -144,6 +155,7 @@ void load()
 				goFirstPlayer->AddComponent<HealthSubjectComponent>()->AddObserver(healthObserver);
 				goFirstPlayer->AddComponent<ScoreSubjectComponent>()->AddObserver(scoreObserver);
 				goFirstPlayer->SetLocalPosition({ 100, 250, 0 });
+				goFirstPlayer->SetLocalScale({ 2.f, 2.f, 1.f });
 
 				//Add input commands
 				auto& manager = dae::InputManager::GetInstance();
@@ -176,7 +188,8 @@ void load()
 				goSecondPlayer->AddComponent<PlayerComponent>();
 				goSecondPlayer->AddComponent<HealthSubjectComponent>()->AddObserver(healthObserver);
 				goSecondPlayer->AddComponent<ScoreSubjectComponent>()->AddObserver(scoreObserver);
-				goSecondPlayer->SetLocalPosition({ x * tileSize, y * tileSize + 200, 0 });
+				goSecondPlayer->SetLocalPosition({ x * tileSize + offset.x, y * tileSize + offset.y, 0 });
+				goSecondPlayer->SetLocalScale({ scale, scale, 1.f });
 
 				//Add input commands
 				daeEngine::KeyboardInput* keyboard = dae::InputManager::GetInstance().GetKeyboard();
@@ -194,11 +207,6 @@ void load()
 			}
 		}
 	}
-
-	//Logo
-	auto goLogo = scene.CreateGameObject();
-	goLogo->AddComponent<RenderComponent>("logo.tga");
-	goLogo->SetLocalPosition({ 216, 180, 0 });
 
 	//Text
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
