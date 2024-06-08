@@ -1,15 +1,17 @@
 #include "PlayerIdleState.h"
 
+#include <glm/detail/func_geometric.inl>
+
+#include "MovementComponent.h"
 #include "PlayerMovingState.h"
 #include "RenderComponent.h"
 
-void PlayerIdleState::Update()
-{
-}
-
 std::unique_ptr<PlayerState> PlayerIdleState::HandleInput(glm::vec3 direction)
 {
-	m_Direction = direction;
+	if (glm::length(direction) > 0.01f)
+	{
+		m_Direction = glm::normalize(direction); // Normalize the direction for consistent movement
+	}
 	
 	if (abs(m_Direction.x) >= 0.01f || abs(m_Direction.y) >= 0.01f)
 	{

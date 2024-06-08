@@ -9,8 +9,10 @@ PlayerState::~PlayerState()
 {
 }
 
-void PlayerState::Update()
+std::unique_ptr<PlayerState> PlayerState::Update()
 {
+	auto state = std::make_unique<PlayerState>();
+	return state;
 }
 
 std::unique_ptr<PlayerState> PlayerState::HandleInput(glm::vec3)

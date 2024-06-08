@@ -36,17 +36,18 @@
 
 void load()
 {
-	auto& scene = dae::SceneManager::GetInstance().CreateScene("Programming 4 assignment");
-	dae::SceneManager::GetInstance().SetActiveScene("Programming 4 assignment");
+	auto& scene = dae::SceneManager::GetInstance().CreateScene("level1");
+	dae::SceneManager::GetInstance().SetActiveScene("level1");
 	auto& gameInstance = daeEngine::GameState::GetInstance();
 
 	float scale{ 1.5 };
 	const int tileSize{ static_cast<int>(16*scale) };
 	const glm::vec2 offset{ tileSize / 2 + 150, tileSize / 2 + 50 };
-	/*gameInstance.firstPlayerHealth = 4;
+	glm::vec2 gridSize(13, 15); // Size of the grid (20 columns x 15 rows)
+	gameInstance.firstPlayerHealth = 4;
 	gameInstance.secondPlayerHealth = 4;
 	gameInstance.firstPlayerScore = 0;
-	gameInstance.secondPlayerScore = 0;*/
+	gameInstance.secondPlayerScore = 0;
 
 	//sound
 	int amountOfChannels{ 2 };
@@ -100,7 +101,7 @@ void load()
 			if (objectType == 4)
 			{
 				auto diamond = scene.CreateGameObject();
-				diamond->AddComponent<RenderComponent>("textures/blocks.png", glm::vec2{ 0, 2 }, glm::vec2{ 9, 4 });
+				diamond->AddComponent<RenderComponent>("textures/blocks.png", glm::vec2{ 0, 1 }, glm::vec2{ 9, 4 });
 				diamond->SetLocalPosition({ x * tileSize + offset.x, y * tileSize + offset.y, 0 });
 				diamond->SetLocalScale({ scale, scale, 1.f });
 				continue;
@@ -162,7 +163,7 @@ void load()
 				//Second player
 				auto goSecondPlayer = scene.CreateGameObject();
 				goSecondPlayer->AddComponent<RenderComponent>("textures/penguinDown.png");
-				goSecondPlayer->AddComponent<MovementComponent>(200.f);
+				goSecondPlayer->AddComponent<MovementComponent>(200.f, tileSize, offset);
 				goSecondPlayer->AddComponent<PlayerComponent>();
 				goSecondPlayer->AddComponent<HealthSubjectComponent>(4)->AddObserver(healthObserver);
 				goSecondPlayer->AddComponent<ScoreSubjectComponent>()->AddObserver(scoreObserver);

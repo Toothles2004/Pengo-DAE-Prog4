@@ -7,7 +7,6 @@ public:
 	PlayerIdleState() = default;
 	~PlayerIdleState() override = default;
 
-	void Update() override;
 	std::unique_ptr<PlayerState> HandleInput(glm::vec3 direction) override;
 	void OnEnter(glm::vec3 previousDir, dae::GameObject* owner) override;
 	void OnExit() override;

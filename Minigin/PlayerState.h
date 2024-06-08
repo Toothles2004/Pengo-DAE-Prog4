@@ -13,7 +13,7 @@ public:
 	PlayerState();
 	virtual ~PlayerState();
 
-	virtual void Update();
+	virtual std::unique_ptr<PlayerState> Update();
 	virtual std::unique_ptr<PlayerState> HandleInput(glm::vec3 direction);
 	virtual void OnEnter(glm::vec3, dae::GameObject*) {}
 	virtual void OnExit() {}
