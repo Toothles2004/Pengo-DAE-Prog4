@@ -1,4 +1,7 @@
 #include "PlayerState.h"
+
+#include "BasicComponent.h"
+#include "BasicComponent.h"
 #include "GameObject.h"
 
 PlayerState::PlayerState()
@@ -9,14 +12,14 @@ PlayerState::~PlayerState()
 {
 }
 
-std::unique_ptr<PlayerState> PlayerState::Update()
+PlayerState* PlayerState::Update()
 {
-	auto state = std::make_unique<PlayerState>();
+	const auto state = this;
 	return state;
 }
 
-std::unique_ptr<PlayerState> PlayerState::HandleInput(glm::vec3)
+::PlayerState* PlayerState::HandleInput(glm::vec3)
 {
-	auto state = std::make_unique<PlayerState>();
+	const auto state = this;
 	return state;
 }

@@ -1,7 +1,10 @@
 #include "IceCubeBreakingState.h"
+
+#include "BasicComponent.h"
+#include "BasicComponent.h"
 #include "RenderComponent.h"
 
-std::unique_ptr<IceCubeState> IceCubeBreakingState::Update()
+IceCubeState* IceCubeBreakingState::Update()
 {
 	if(m_PositionInImage.x < m_FramesInImage.x)
 	{
@@ -13,13 +16,13 @@ std::unique_ptr<IceCubeState> IceCubeBreakingState::Update()
 		m_pOwner->MarkForDeath();
 	}
 
-	auto state = std::make_unique<IceCubeBreakingState>();
+	const auto state = this;
 	return state;
 }
 
-std::unique_ptr<IceCubeState> IceCubeBreakingState::HandleInput(glm::vec3 direction)
+::IceCubeState* IceCubeBreakingState::HandleInput(glm::vec3)
 {
-	auto state = std::make_unique<IceCubeBreakingState>();
+	const auto state = this;
 	return state;
 }
 

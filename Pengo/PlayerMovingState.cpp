@@ -2,42 +2,45 @@
 
 #include <glm/detail/func_geometric.inl>
 
+#include "BasicComponent.h"
+#include "BasicComponent.h"
 #include "GameObject.h"
 #include "MovementComponent.h"
 #include "PlayerIdleState.h"
 #include "RenderComponent.h"
-std::unique_ptr<PlayerState> PlayerMovingState::Update()
+
+PlayerState* PlayerMovingState::Update()
 {
+	glm::vec2 characterFrameCount{ 40, 18 };
 	m_pOwner->GetComponent<MovementComponent>()->Move(m_Direction);
 	
 	if (m_Direction.x > 0)
 	{
-		m_pOwner->GetComponent<RenderComponent>()->SetTexture("textures/penguinWalkRight.png");
+		m_pOwner->GetComponent<RenderComponent>()->SetTextureParameters(glm::vec2{ 6, 0 }, characterFrameCount);
 	}
 	else if (m_Direction.x < 0)
 	{
-		m_pOwner->GetComponent<RenderComponent>()->SetTexture("textures/penguinWalkLeft.png");
+		m_pOwner->GetComponent<RenderComponent>()->SetTextureParameters(glm::vec2{ 2, 0 }, characterFrameCount);
 	}
 	else if (m_Direction.y < 0)
 	{
-		m_pOwner->GetComponent<RenderComponent>()->SetTexture("textures/penguinWalkUp.png");
+		m_pOwner->GetComponent<RenderComponent>()->SetTextureParameters(glm::vec2{ 5, 0 }, characterFrameCount);
 	}
 	else if (m_Direction.y > 0)
 	{
-		m_pOwner->GetComponent<RenderComponent>()->SetTexture("textures/penguinWalkDown.png");
+		m_pOwner->GetComponent<RenderComponent>()->SetTextureParameters(glm::vec2{ 1, 0 }, characterFrameCount);
 	}
-
-	if (m_pOwner->GetComponent<MovementComponent>()->IsAtTarget())
+	else if (m_pOwner->GetComponent<MovementComponent>()->IsAtTarget())
 	{
-		auto state = std::make_unique<PlayerIdleState>();
+		PlayerIdleState* state = new PlayerIdleState();
 		return state;
 	}
 
-	auto state = std::make_unique<PlayerMovingState>();
+	const auto state = this;
 	return state;
 }
 
-std::unique_ptr<PlayerState> PlayerMovingState::HandleInput(glm::vec3 direction)
+::PlayerState* PlayerMovingState::HandleInput(glm::vec3 direction)
 {
 	if (glm::length(direction) > 0.01f)
 	{
@@ -48,7 +51,7 @@ std::unique_ptr<PlayerState> PlayerMovingState::HandleInput(glm::vec3 direction)
 		m_Direction = direction;
 	}
 
-	auto state = std::make_unique<PlayerMovingState>();
+	const auto state = this;
 	return state;
 }
 

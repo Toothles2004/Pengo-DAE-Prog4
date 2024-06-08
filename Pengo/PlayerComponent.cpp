@@ -11,15 +11,24 @@ PlayerComponent::PlayerComponent(dae::GameObject* owner)
 
 void PlayerComponent::Update()
 {
-	auto state = m_State->HandleInput(m_Direction);
-	m_State->Update();
-	if (state != m_State)
+	PlayerState* state = m_State->HandleInput(m_Direction);
+	PlayerState* state2 = m_State->Update();
+	if (state != m_State.get() && state != nullptr)
 	{
 		m_State->OnExit();
-		m_State = std::move(state);
+		m_State = std::unique_ptr<PlayerState>(state);
 		m_State->OnEnter(m_PreviousDirection, m_pOwner);
 	}
-	m_PreviousDirection = m_Direction;
+	else if(state2 != m_State.get() && state != nullptr)
+	{
+		m_State->OnExit();
+		m_State = std::unique_ptr<PlayerState>(state2);
+		m_State->OnEnter(m_PreviousDirection, m_pOwner);
+	}
+	if(m_Direction != glm::vec3(0.f, 0.f, 0.f))
+	{
+		m_PreviousDirection = m_Direction;
+	}
 }
 
 void PlayerComponent::SetDirection(glm::vec3 direction)

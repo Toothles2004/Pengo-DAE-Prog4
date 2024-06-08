@@ -13,8 +13,8 @@ public:
 	IceCubeState();
 	virtual ~IceCubeState();
 
-	virtual std::unique_ptr<IceCubeState> Update();
-	virtual std::unique_ptr<IceCubeState> HandleInput(glm::vec3 direction);
+	virtual IceCubeState* Update();
+	virtual IceCubeState* HandleInput(glm::vec3 direction);
 	virtual void OnEnter(dae::GameObject*) {}
 	virtual void OnExit() {}
 

@@ -35,34 +35,58 @@
 
 #include "IceCubeComponent.h"
 
-void load()
+enum class EnemyColor
 {
-	auto& scene = dae::SceneManager::GetInstance().CreateScene("level1");
-	dae::SceneManager::GetInstance().SetActiveScene("level1");
+	green,
+	red,
+	yellow
+};
+
+void LoadLevel(const std::string& levelName, EnemyColor enemyColor, const float scale,  const int tileSize, const glm::vec2 offset)
+{
+	std::string levelDataPath{ "..\\Data\\levels\\" };
+	levelDataPath += levelName + ".txt";
+	std::string characterPath{ "textures/character.png" };
+	std::string blockPath{ "textures/blocks.png" };
+	glm::vec2 characterFrameCount{40, 18};
+	glm::vec2 player2FramePos{ 0,0 };
+	glm::vec2 blockImageFrameCount{ 9, 4 };
+	glm::vec2 iceBlockFramePos{ 0, 0 };
+	glm::vec2 backgroundFramePos{ 0, 0 };
+	glm::vec2 backgroundFrameCount{ 2, 1 };
+	glm::vec2 diamondFramePos{ 0, 1 };
+	glm::vec2 eggFramePos{};
+	glm::vec2 enemyFramePos{};
+
+	switch (enemyColor)
+	{
+		case EnemyColor::green:
+			eggFramePos = { 1, 0 };
+			enemyFramePos = { 0, 9 };
+			break;
+		case EnemyColor::red:
+			eggFramePos = { 2, 0 };
+			enemyFramePos = { 8, 9 };
+			break;
+		case EnemyColor::yellow:
+			eggFramePos = { 3, 0 };
+			enemyFramePos = { 16, 9 };
+			break;
+	}
+
+	auto& scene = dae::SceneManager::GetInstance().CreateScene(levelName);
 	auto& gameInstance = daeEngine::GameState::GetInstance();
 
-	float scale{ 1.5 };
-	const int tileSize{ static_cast<int>(16*scale) };
-	const glm::vec2 offset{ tileSize / 2 + 150, tileSize / 2 + 50 };
-	gameInstance.firstPlayerHealth = 4;
-	gameInstance.secondPlayerHealth = 4;
-	gameInstance.firstPlayerScore = 0;
-	gameInstance.secondPlayerScore = 0;
-
-	//sound
-	int amountOfChannels{ 2 };
-	daeEngine::SoundServiceLocator::RegisterSoundService(std::make_unique<daeEngine::SDLSoundService>(amountOfChannels));
 	auto& soundService = daeEngine::SoundServiceLocator::GetSoundService();
-	soundService.LoadSound("..\\Data\\sounds\\mainBGM.mp3", 0);
 	soundService.PlaySound(0, 0, 10, -1);
 
 	//background
 	auto goBackground = scene.CreateGameObject();
-	goBackground->AddComponent<RenderComponent>("textures/level.png", glm::vec2{0, 0}, glm::vec2{2, 1});
-	goBackground->SetLocalPosition({ offset.x - static_cast<int>(tileSize/2), offset.y - static_cast<int>(tileSize/2), 0 });
+	goBackground->AddComponent<RenderComponent>("textures/level.png", backgroundFramePos, backgroundFrameCount);
+	goBackground->SetLocalPosition({ offset.x - static_cast<float>(tileSize / 2.f), offset.y - static_cast<float>(tileSize / 2.f), 0 });
 	goBackground->SetLocalScale({ scale, scale, 1.f });
 
-	std::vector<std::vector<int>> levelLayout = dae::SceneManager::GetInstance().ReadLevelLayoutFromFile("..\\Data\\levels\\level1.txt");
+	std::vector<std::vector<int>> levelLayout = dae::SceneManager::GetInstance().ReadLevelLayoutFromFile(levelDataPath);
 
 	// Iterate over the layout to create game objects
 	for (size_t y{}; y < levelLayout.size(); ++y)
@@ -70,14 +94,14 @@ void load()
 		for (size_t x{}; x < levelLayout[y].size(); ++x)
 		{
 			int objectType = levelLayout[y][x];
-			if(objectType == 0)
+			if (objectType == 0)
 			{
 				continue;
 			}
-			if(objectType == 1)
+			if (objectType == 1)
 			{
 				auto iceBlock = scene.CreateGameObject();
-				iceBlock->AddComponent<RenderComponent>("textures/blocks.png", glm::vec2{0, 0}, glm::vec2{9, 4});
+				iceBlock->AddComponent<RenderComponent>(blockPath, iceBlockFramePos, blockImageFrameCount);
 				iceBlock->AddComponent<MovementComponent>(250.f, tileSize, offset);
 				iceBlock->AddComponent<IceCubeComponent>();
 				iceBlock->SetLocalPosition({ x * tileSize + offset.x, y * tileSize + offset.y, 0 });
@@ -87,7 +111,7 @@ void load()
 			if (objectType == 2)
 			{
 				auto egg = scene.CreateGameObject();
-				egg->AddComponent<RenderComponent>("textures/blocks.png", glm::vec2{ 1, 0 }, glm::vec2{ 9, 4 });
+				egg->AddComponent<RenderComponent>(blockPath, eggFramePos, blockImageFrameCount);
 				egg->SetLocalPosition({ x * tileSize + offset.x, y * tileSize + offset.y, 0 });
 				egg->SetLocalScale({ scale, scale, 1.f });
 				continue;
@@ -95,7 +119,7 @@ void load()
 			if (objectType == 3)
 			{
 				auto snoBee = scene.CreateGameObject();
-				snoBee->AddComponent<RenderComponent>("textures/snoBee1.png");
+				snoBee->AddComponent<RenderComponent>(characterPath, enemyFramePos, characterFrameCount);
 				snoBee->SetLocalPosition({ x * tileSize + offset.x, y * tileSize + offset.y, 0 });
 				snoBee->SetLocalScale({ scale, scale, 1.f });
 				continue;
@@ -103,7 +127,7 @@ void load()
 			if (objectType == 4)
 			{
 				auto diamond = scene.CreateGameObject();
-				diamond->AddComponent<RenderComponent>("textures/blocks.png", glm::vec2{ 0, 1 }, glm::vec2{ 9, 4 });
+				diamond->AddComponent<RenderComponent>(blockPath, diamondFramePos, blockImageFrameCount);
 				diamond->SetLocalPosition({ x * tileSize + offset.x, y * tileSize + offset.y, 0 });
 				diamond->SetLocalScale({ scale, scale, 1.f });
 				continue;
@@ -164,7 +188,7 @@ void load()
 
 				//Second player
 				auto goSecondPlayer = scene.CreateGameObject();
-				goSecondPlayer->AddComponent<RenderComponent>("textures/penguinDown.png");
+				goSecondPlayer->AddComponent<RenderComponent>(characterPath, player2FramePos, characterFrameCount);
 				goSecondPlayer->AddComponent<MovementComponent>(200.f, tileSize, offset);
 				goSecondPlayer->AddComponent<PlayerComponent>();
 				goSecondPlayer->AddComponent<HealthSubjectComponent>(gameInstance.secondPlayerHealth)->AddObserver(healthObserver);
@@ -188,16 +212,41 @@ void load()
 			}
 		}
 	}
+}
 
-	//Text
+void load()
+{
+	/*auto& scene = dae::SceneManager::GetInstance().CreateScene("menu");
+	dae::SceneManager::GetInstance().SetActiveScene("menu");*/
+	auto& gameInstance = daeEngine::GameState::GetInstance();
+
+	float scale{ 1.5 };
+	const int tileSize{ static_cast<int>(16*scale) };
+	const glm::vec2 offset{ tileSize / 2 + 150, tileSize / 2 + 50 };
+	gameInstance.firstPlayerHealth = 4;
+	gameInstance.secondPlayerHealth = 4;
+	gameInstance.firstPlayerScore = 0;
+	gameInstance.secondPlayerScore = 0;
+
+	//load levels
+	LoadLevel("level1", EnemyColor::green, scale, tileSize, offset);
+	//LoadLevel("level2", EnemyColor::red, scale, tileSize, offset);
+	//LoadLevel("level3", EnemyColor::yellow, scale, tileSize, offset);
+
+	//sound
+	int amountOfChannels{ 2 };
+	daeEngine::SoundServiceLocator::RegisterSoundService(std::make_unique<daeEngine::SDLSoundService>(amountOfChannels));
+	auto& soundService = daeEngine::SoundServiceLocator::GetSoundService();
+	soundService.LoadSound("..\\Data\\sounds\\mainBGM.mp3", 0);
+	soundService.PlaySound(0, 0, 10, -1);
+
+	dae::SceneManager::GetInstance().SetActiveScene("level1");
+
+	/*//Text
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	auto goText = scene.CreateGameObject();
 	goText->AddComponent<TextComponent>("Programming 4 Assignment", font);
 	goText->SetLocalPosition({ 80, 20, 0 });
-
-	//FPS counter
-	auto goFPS = scene.CreateGameObject();
-	goFPS->AddComponent<FPSComponent>();
 
 	//Set new font for text
 	font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 12);
@@ -213,7 +262,7 @@ void load()
 
 	auto goInfo = scene.CreateGameObject();
 	goInfo->AddComponent<TextComponent>("When taking damage a sound plays", font);
-	goInfo->SetLocalPosition({ 5, 105, 0 });
+	goInfo->SetLocalPosition({ 5, 105, 0 });*/
 
 	////Render imgui graphs
 	//go = std::make_shared<dae::GameObject>();

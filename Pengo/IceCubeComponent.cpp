@@ -13,11 +13,17 @@ IceCubeComponent::IceCubeComponent(dae::GameObject* owner)
 void IceCubeComponent::Update()
 {
 	auto state = m_State->HandleInput(m_Direction);
-	m_State->Update();
-	if (state != m_State)
+	auto state2 = m_State->Update();
+	if (state != m_State.get() && state != nullptr)
 	{
 		m_State->OnExit();
-		m_State = std::move(state);
+		m_State = std::unique_ptr<IceCubeState>(state);
+		m_State->OnEnter(m_pOwner);
+	}
+	else if (state2 != m_State.get() && state != nullptr)
+	{
+		m_State->OnExit();
+		m_State = std::unique_ptr<IceCubeState>(state2);
 		m_State->OnEnter(m_pOwner);
 	}
 }

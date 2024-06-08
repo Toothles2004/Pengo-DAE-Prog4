@@ -1,4 +1,6 @@
 #pragma once
+#include "BasicComponent.h"
+#include "BasicComponent.h"
 #include "PlayerState.h"
 
 class PlayerMovingState final : public PlayerState
@@ -7,8 +9,8 @@ public:
 	PlayerMovingState() = default;
 	~PlayerMovingState() override = default;
 
-	std::unique_ptr<PlayerState> Update() override;
-	std::unique_ptr<PlayerState> HandleInput(glm::vec3 direction) override;
+	PlayerState* Update() override;
+	::PlayerState* HandleInput(glm::vec3 direction) override;
 	void OnEnter(glm::vec3 previousDir, dae::GameObject* owner) override;
 
 	PlayerMovingState(const PlayerMovingState& other) = delete;

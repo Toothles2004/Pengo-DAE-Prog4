@@ -1,4 +1,6 @@
 #pragma once
+#include "BasicComponent.h"
+#include "BasicComponent.h"
 #include "IceCubeState.h"
 
 class IceCubeMovingState final : public IceCubeState
@@ -7,8 +9,8 @@ public:
 	IceCubeMovingState() = default;
 	~IceCubeMovingState() override = default;
 
-	std::unique_ptr<IceCubeState> Update() override;
-	std::unique_ptr<IceCubeState> HandleInput(const glm::vec3 direction) override;
+	IceCubeState* Update() override;
+	::IceCubeState* HandleInput(const glm::vec3 direction) override;
 	void OnEnter(dae::GameObject* owner) override;
 
 	IceCubeMovingState(const IceCubeMovingState& other) = delete;
