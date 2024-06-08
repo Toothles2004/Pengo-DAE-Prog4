@@ -28,6 +28,7 @@ namespace daeEngine
 	protected:
 		std::unordered_map<std::string, std::any> m_pData{};
 		std::vector<std::string> m_pEvent;
+		std::vector<Observer*> GetObservers() { return m_pObservers; }
 
 	private:
 		std::vector<Observer*> m_pObservers{};

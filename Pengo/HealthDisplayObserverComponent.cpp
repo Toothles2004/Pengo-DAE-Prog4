@@ -22,7 +22,6 @@ void HealthDisplayObserverComponent::OnNotify(std::unordered_map<std::string, st
 			SetHealthDisplay(std::any_cast<int>(iter->second));
 		}
 		auto& soundService = daeEngine::SoundServiceLocator::GetSoundService();
-		soundService.LoadSound("..\\Data\\sounds\\miss.mp3", 1);
 		soundService.PlaySound(1, 1, 20, 0);
 	}
 	else if (event == "Died")

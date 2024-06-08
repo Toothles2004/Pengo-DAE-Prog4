@@ -1,8 +1,8 @@
 #pragma once
-#include "BasicComponent.h"
+#include "ActorComponent.h"
 #include "IceCubeState.h"
 
-class IceCubeComponent final : public daeEngine::BasicComponent
+class IceCubeComponent final : public daeEngine::ActorComponent
 {
 public:
 	IceCubeComponent(dae::GameObject* owner);

@@ -33,6 +33,8 @@
 #include <fstream>
 #include <sstream>
 
+#include "CollisionObserverComponent.h"
+#include "CollisionSubjectComponent.h"
 #include "IceCubeComponent.h"
 
 enum class EnemyColor
@@ -86,6 +88,9 @@ void LoadLevel(const std::string& levelName, EnemyColor enemyColor, const float 
 	goBackground->SetLocalPosition({ offset.x - static_cast<float>(tileSize / 2.f), offset.y - static_cast<float>(tileSize / 2.f), 0 });
 	goBackground->SetLocalScale({ scale, scale, 1.f });
 
+	auto goCollisionManager = scene.CreateGameObject();
+	goCollisionManager->AddComponent<CollisionSubjectComponent>();
+
 	std::vector<std::vector<int>> levelLayout = dae::SceneManager::GetInstance().ReadLevelLayoutFromFile(levelDataPath);
 
 	// Iterate over the layout to create game objects
@@ -104,6 +109,8 @@ void LoadLevel(const std::string& levelName, EnemyColor enemyColor, const float 
 				iceBlock->AddComponent<RenderComponent>(blockPath, iceBlockFramePos, blockImageFrameCount);
 				iceBlock->AddComponent<MovementComponent>(250.f, tileSize, offset);
 				iceBlock->AddComponent<IceCubeComponent>();
+				auto collisionObserver = iceBlock->AddComponent<CollisionObserverComponent>();
+				goCollisionManager->GetComponent<CollisionSubjectComponent>()->AddObserver(collisionObserver);
 				iceBlock->SetLocalPosition({ x * tileSize + offset.x, y * tileSize + offset.y, 0 });
 				iceBlock->SetLocalScale({ scale, scale, 1.f });
 				continue;
@@ -112,6 +119,8 @@ void LoadLevel(const std::string& levelName, EnemyColor enemyColor, const float 
 			{
 				auto egg = scene.CreateGameObject();
 				egg->AddComponent<RenderComponent>(blockPath, eggFramePos, blockImageFrameCount);
+				auto collisionObserver = egg->AddComponent<CollisionObserverComponent>();
+				goCollisionManager->GetComponent<CollisionSubjectComponent>()->AddObserver(collisionObserver);
 				egg->SetLocalPosition({ x * tileSize + offset.x, y * tileSize + offset.y, 0 });
 				egg->SetLocalScale({ scale, scale, 1.f });
 				continue;
@@ -120,6 +129,8 @@ void LoadLevel(const std::string& levelName, EnemyColor enemyColor, const float 
 			{
 				auto snoBee = scene.CreateGameObject();
 				snoBee->AddComponent<RenderComponent>(characterPath, enemyFramePos, characterFrameCount);
+				auto collisionObserver = snoBee->AddComponent<CollisionObserverComponent>();
+				goCollisionManager->GetComponent<CollisionSubjectComponent>()->AddObserver(collisionObserver);
 				snoBee->SetLocalPosition({ x * tileSize + offset.x, y * tileSize + offset.y, 0 });
 				snoBee->SetLocalScale({ scale, scale, 1.f });
 				continue;
@@ -128,6 +139,8 @@ void LoadLevel(const std::string& levelName, EnemyColor enemyColor, const float 
 			{
 				auto diamond = scene.CreateGameObject();
 				diamond->AddComponent<RenderComponent>(blockPath, diamondFramePos, blockImageFrameCount);
+				auto collisionObserver = diamond->AddComponent<CollisionObserverComponent>();
+				goCollisionManager->GetComponent<CollisionSubjectComponent>()->AddObserver(collisionObserver);
 				diamond->SetLocalPosition({ x * tileSize + offset.x, y * tileSize + offset.y, 0 });
 				diamond->SetLocalScale({ scale, scale, 1.f });
 				continue;
@@ -193,6 +206,8 @@ void LoadLevel(const std::string& levelName, EnemyColor enemyColor, const float 
 				goSecondPlayer->AddComponent<PlayerComponent>();
 				goSecondPlayer->AddComponent<HealthSubjectComponent>(gameInstance.secondPlayerHealth)->AddObserver(healthObserver);
 				goSecondPlayer->AddComponent<ScoreSubjectComponent>()->AddObserver(scoreObserver);
+				auto collisionObserver = goSecondPlayer->AddComponent<CollisionObserverComponent>();
+				goCollisionManager->GetComponent<CollisionSubjectComponent>()->AddObserver(collisionObserver);
 				goSecondPlayer->SetLocalPosition({ x * tileSize + offset.x, y * tileSize + offset.y, 0 });
 				goSecondPlayer->SetLocalScale({ scale, scale, 1.f });
 
@@ -230,14 +245,15 @@ void load()
 
 	//load levels
 	LoadLevel("level1", EnemyColor::green, scale, tileSize, offset);
-	//LoadLevel("level2", EnemyColor::red, scale, tileSize, offset);
-	//LoadLevel("level3", EnemyColor::yellow, scale, tileSize, offset);
+	/*LoadLevel("level2", EnemyColor::red, scale, tileSize, offset);
+	LoadLevel("level3", EnemyColor::yellow, scale, tileSize, offset);*/
 
 	//sound
 	int amountOfChannels{ 2 };
 	daeEngine::SoundServiceLocator::RegisterSoundService(std::make_unique<daeEngine::SDLSoundService>(amountOfChannels));
 	auto& soundService = daeEngine::SoundServiceLocator::GetSoundService();
 	soundService.LoadSound("..\\Data\\sounds\\mainBGM.mp3", 0);
+	soundService.LoadSound("..\\Data\\sounds\\miss.mp3", 1);
 	soundService.PlaySound(0, 0, 10, -1);
 
 	dae::SceneManager::GetInstance().SetActiveScene("level1");

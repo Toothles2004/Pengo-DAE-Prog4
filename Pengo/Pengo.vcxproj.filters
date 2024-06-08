@@ -118,6 +118,12 @@
     <ClCompile Include="IceCubeComponent.cpp">
       <Filter>Game Files\Components\Actors</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionObserverComponent.cpp">
+      <Filter>Game Files\Components\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionSubjectComponent.cpp">
+      <Filter>Game Files\Components\Subjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DamageCommand.h">
@@ -197,6 +203,12 @@
     </ClInclude>
     <ClInclude Include="IceCubeComponent.h">
       <Filter>Game Files\Components\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionObserverComponent.h">
+      <Filter>Game Files\Components\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionSubjectComponent.h">
+      <Filter>Game Files\Components\Subjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,6 +1,5 @@
 #pragma once
 #include "BasicComponent.h"
-#include "BasicComponent.h"
 #include "PlayerState.h"
 
 class PlayerIdleState final : public PlayerState

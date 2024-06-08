@@ -1,6 +1,8 @@
 #include "MovementComponent.h"
 #include <glm/detail/func_geometric.inl>
 
+#include "ActorComponent.h"
+
 MovementComponent::MovementComponent(dae::GameObject* owner, float speed, const int tileSize, const glm::vec2 offset)
 	: BasicComponent(owner),
 	m_MovementSpeed(speed),
@@ -24,6 +26,7 @@ void MovementComponent::Move(glm::vec3 direction)
 
         // Convert the new grid position to the target world position
         m_TargetPosition = GridToWorldPosition(newGridPosition);
+
         m_IsMoving = true;
     }
 

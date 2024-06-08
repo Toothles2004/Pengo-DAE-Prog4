@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <glm/vec3.hpp>
 #include "BasicComponent.h"
+#include "Subject.h"
 
 namespace dae
 {

@@ -1,8 +1,8 @@
 #pragma once
-#include "BasicComponent.h"
+#include "ActorComponent.h"
 #include "PlayerState.h"
 
-class PlayerComponent final : public daeEngine::BasicComponent
+class PlayerComponent final : public daeEngine::ActorComponent
 {
 public:
 	PlayerComponent(dae::GameObject* owner);

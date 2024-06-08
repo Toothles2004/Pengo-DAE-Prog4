@@ -161,6 +161,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CollisionObserverComponent.cpp" />
+    <ClCompile Include="CollisionSubjectComponent.cpp" />
     <ClCompile Include="DamageCommand.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="GraphComponent.cpp" />
@@ -190,6 +192,8 @@
     <ClCompile Include="TextComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CollisionObserverComponent.h" />
+    <ClInclude Include="CollisionSubjectComponent.h" />
     <ClInclude Include="DamageCommand.h" />
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="GraphComponent.h" />

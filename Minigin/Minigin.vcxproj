@@ -199,6 +199,7 @@
     <ClInclude Include="..\3rdParty\imgui-1.90.4\imstb_textedit.h" />
     <ClInclude Include="..\3rdParty\imgui-1.90.4\imstb_truetype.h" />
     <ClInclude Include="BasicComponent.h" />
+    <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="ButtonInput.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="ControllerInput.h" />
@@ -230,7 +231,9 @@
     <ClCompile Include="..\3rdParty\imgui-1.90.4\imgui_plot.cpp" />
     <ClCompile Include="..\3rdParty\imgui-1.90.4\imgui_tables.cpp" />
     <ClCompile Include="..\3rdParty\imgui-1.90.4\imgui_widgets.cpp" />
+    <ClCompile Include="ActorComponent.h" />
     <ClCompile Include="BasicComponent.cpp" />
+    <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="ControllerInput.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="GameObject.cpp" />

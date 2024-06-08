@@ -2,12 +2,12 @@
 #include "BasicComponent.h"
 #include "Subject.h"
 
-class HealthSubjectComponent : public daeEngine::Subject, public daeEngine::BasicComponent
+class HealthSubjectComponent final : public daeEngine::Subject, public daeEngine::BasicComponent
 {
 public:
 	explicit HealthSubjectComponent(dae::GameObject* owner, int health);
 
-	int GetLives() { return m_Health; }
+	int GetLives() const { return m_Health; }
 	void Damage();
 
 private:

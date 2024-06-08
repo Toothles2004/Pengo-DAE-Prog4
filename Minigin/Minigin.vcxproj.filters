@@ -144,6 +144,9 @@
     <ClInclude Include="NullSoundService.h">
       <Filter>Header Files\Services</Filter>
     </ClInclude>
+    <ClInclude Include="BoundingBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -220,6 +223,12 @@
     </ClCompile>
     <ClCompile Include="GameState.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BoundingBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ActorComponent.h">
+      <Filter>Header Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,12 +1,9 @@
 #include "PlayerIdleState.h"
-
-#include <glm/detail/func_geometric.inl>
-
-#include "BasicComponent.h"
-#include "BasicComponent.h"
 #include "MovementComponent.h"
 #include "PlayerMovingState.h"
 #include "RenderComponent.h"
+
+#include <glm/detail/func_geometric.inl>
 
 ::PlayerState* PlayerIdleState::HandleInput(glm::vec3 direction)
 {

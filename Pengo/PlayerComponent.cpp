@@ -2,7 +2,7 @@
 #include "PlayerIdleState.h"
 
 PlayerComponent::PlayerComponent(dae::GameObject* owner)
-	: BasicComponent(owner),
+	: ActorComponent(owner),
 	m_Direction(glm::vec3(0.f, 0.f, 0.f))
 {
 	m_State = std::make_unique<PlayerIdleState>();
