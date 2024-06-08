@@ -17,7 +17,6 @@ public:
 	PlayerIdleState& operator=(PlayerIdleState&& other) = delete;
 
 private:
-	glm::vec3 m_Direction;
-	dae::GameObject* m_pOwner;
+	glm::vec3 m_Direction{};
 };
 

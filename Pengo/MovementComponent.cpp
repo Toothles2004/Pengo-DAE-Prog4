@@ -64,7 +64,6 @@ void MovementComponent::Move(glm::vec3 direction)
 
 bool MovementComponent::IsAtTarget() const
 {
-    // Check if the player is at the target grid position
     return !m_IsMoving;
 }
 

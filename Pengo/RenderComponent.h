@@ -17,11 +17,12 @@ public:
 
     void SetTexture(const std::shared_ptr<dae::Texture2D>& texture) { m_pTexture = texture; }
     void SetTexture(const std::string& filename) { m_pTexture = dae::ResourceManager::GetInstance().LoadTexture(filename); }
+    void SetTextureParameters(const glm::vec2 positionInImage, const glm::vec2 framesInImage) { m_PositionInImage = positionInImage; m_FramesInImage = framesInImage; m_bPartOfImage = true; }
 
 private:
     std::shared_ptr<dae::Texture2D> m_pTexture;
     bool m_bPartOfImage{ false };
-    glm::vec2 m_PositionInImage;
-    glm::vec2 m_FramesInImage;
+    glm::vec2 m_PositionInImage{};
+    glm::vec2 m_FramesInImage{};
 };
 

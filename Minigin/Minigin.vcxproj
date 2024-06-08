@@ -210,7 +210,6 @@
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="NullSoundService.h" />
     <ClInclude Include="Observer.h" />
-    <ClInclude Include="PlayerState.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scene.h" />
@@ -241,7 +240,6 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="KeyboardInput.cpp" />
     <ClCompile Include="Minigin.cpp" />
-    <ClCompile Include="PlayerState.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />

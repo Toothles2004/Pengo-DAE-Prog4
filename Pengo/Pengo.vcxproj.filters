@@ -23,11 +23,17 @@
     <Filter Include="Game Files\States">
       <UniqueIdentifier>{e70e3ae7-2175-40bd-887c-63f30474d50e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game Files\States\Player">
-      <UniqueIdentifier>{b0b0b88b-0d8e-4edf-b7a2-2a7d7f7c3039}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game Files\Components\Actors">
       <UniqueIdentifier>{06839a5a-bcbd-4c53-9285-50055431ee6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\States\PlayerInherited">
+      <UniqueIdentifier>{b0b0b88b-0d8e-4edf-b7a2-2a7d7f7c3039}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\States\BasicStates">
+      <UniqueIdentifier>{11371a73-32e3-43c5-9d46-f47036d5c1e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\States\IceCubeInherited">
+      <UniqueIdentifier>{71be9da4-cd81-4754-9608-7bd3b95759c2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -74,24 +80,42 @@
       <Filter>Game Files\Components\General</Filter>
     </ClCompile>
     <ClCompile Include="PlayerIdleState.cpp">
-      <Filter>Game Files\States\Player</Filter>
+      <Filter>Game Files\States\PlayerInherited</Filter>
     </ClCompile>
     <ClCompile Include="PlayerMovingState.cpp">
-      <Filter>Game Files\States\Player</Filter>
+      <Filter>Game Files\States\PlayerInherited</Filter>
     </ClCompile>
     <ClCompile Include="PlayerPushingState.cpp">
-      <Filter>Game Files\States\Player</Filter>
+      <Filter>Game Files\States\PlayerInherited</Filter>
     </ClCompile>
     <ClCompile Include="PlayerCrushingState.cpp">
-      <Filter>Game Files\States\Player</Filter>
+      <Filter>Game Files\States\PlayerInherited</Filter>
     </ClCompile>
     <ClCompile Include="PlayerDiedState.cpp">
-      <Filter>Game Files\States\Player</Filter>
+      <Filter>Game Files\States\PlayerInherited</Filter>
     </ClCompile>
     <ClCompile Include="PlayerWonState.cpp">
-      <Filter>Game Files\States\Player</Filter>
+      <Filter>Game Files\States\PlayerInherited</Filter>
     </ClCompile>
     <ClCompile Include="PlayerComponent.cpp">
+      <Filter>Game Files\Components\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState.cpp">
+      <Filter>Game Files\States\BasicStates</Filter>
+    </ClCompile>
+    <ClCompile Include="IceCubeState.cpp">
+      <Filter>Game Files\States\BasicStates</Filter>
+    </ClCompile>
+    <ClCompile Include="IceCubeIdleState.cpp">
+      <Filter>Game Files\States\IceCubeInherited</Filter>
+    </ClCompile>
+    <ClCompile Include="IceCubeMovingState.cpp">
+      <Filter>Game Files\States\IceCubeInherited</Filter>
+    </ClCompile>
+    <ClCompile Include="IceCubeBreakingState.cpp">
+      <Filter>Game Files\States\IceCubeInherited</Filter>
+    </ClCompile>
+    <ClCompile Include="IceCubeComponent.cpp">
       <Filter>Game Files\Components\Actors</Filter>
     </ClCompile>
   </ItemGroup>
@@ -136,24 +160,42 @@
       <Filter>Game Files\Components\General</Filter>
     </ClInclude>
     <ClInclude Include="PlayerIdleState.h">
-      <Filter>Game Files\States\Player</Filter>
+      <Filter>Game Files\States\PlayerInherited</Filter>
     </ClInclude>
     <ClInclude Include="PlayerMovingState.h">
-      <Filter>Game Files\States\Player</Filter>
+      <Filter>Game Files\States\PlayerInherited</Filter>
     </ClInclude>
     <ClInclude Include="PlayerPushingState.h">
-      <Filter>Game Files\States\Player</Filter>
+      <Filter>Game Files\States\PlayerInherited</Filter>
     </ClInclude>
     <ClInclude Include="PlayerCrushingState.h">
-      <Filter>Game Files\States\Player</Filter>
+      <Filter>Game Files\States\PlayerInherited</Filter>
     </ClInclude>
     <ClInclude Include="PlayerDiedState.h">
-      <Filter>Game Files\States\Player</Filter>
+      <Filter>Game Files\States\PlayerInherited</Filter>
     </ClInclude>
     <ClInclude Include="PlayerWonState.h">
-      <Filter>Game Files\States\Player</Filter>
+      <Filter>Game Files\States\PlayerInherited</Filter>
     </ClInclude>
     <ClInclude Include="PlayerComponent.h">
+      <Filter>Game Files\Components\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState.h">
+      <Filter>Game Files\States\BasicStates</Filter>
+    </ClInclude>
+    <ClInclude Include="IceCubeState.h">
+      <Filter>Game Files\States\BasicStates</Filter>
+    </ClInclude>
+    <ClInclude Include="IceCubeIdleState.h">
+      <Filter>Game Files\States\IceCubeInherited</Filter>
+    </ClInclude>
+    <ClInclude Include="IceCubeMovingState.h">
+      <Filter>Game Files\States\IceCubeInherited</Filter>
+    </ClInclude>
+    <ClInclude Include="IceCubeBreakingState.h">
+      <Filter>Game Files\States\IceCubeInherited</Filter>
+    </ClInclude>
+    <ClInclude Include="IceCubeComponent.h">
       <Filter>Game Files\Components\Actors</Filter>
     </ClInclude>
   </ItemGroup>

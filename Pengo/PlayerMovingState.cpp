@@ -6,17 +6,10 @@
 #include "MovementComponent.h"
 #include "PlayerIdleState.h"
 #include "RenderComponent.h"
-
-PlayerMovingState::~PlayerMovingState()
-{
-}
-
 std::unique_ptr<PlayerState> PlayerMovingState::Update()
 {
 	m_pOwner->GetComponent<MovementComponent>()->Move(m_Direction);
-	/*auto position = m_pOwner->GetLocalTransform().position;
-	position += m_Direction * m_MovementSpeed * daeEngine::GameTime::GetDeltaTime();
-	m_pOwner->SetLocalPosition(position);*/
+	
 	if (m_Direction.x > 0)
 	{
 		m_pOwner->GetComponent<RenderComponent>()->SetTexture("textures/penguinWalkRight.png");
@@ -62,9 +55,4 @@ std::unique_ptr<PlayerState> PlayerMovingState::HandleInput(glm::vec3 direction)
 void PlayerMovingState::OnEnter(glm::vec3, dae::GameObject* owner)
 {
 	m_pOwner = owner;
-}
-
-void PlayerMovingState::OnExit()
-{
-	
 }

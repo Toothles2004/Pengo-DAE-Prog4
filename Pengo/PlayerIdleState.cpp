@@ -29,22 +29,22 @@ void PlayerIdleState::OnEnter(glm::vec3 previousDir, dae::GameObject* owner)
 	{
 		return;
 	}
-	m_pOwner = owner;
+	
 	if (previousDir.x > 0)
 	{
-		m_pOwner->GetComponent<RenderComponent>()->SetTexture("textures/penguinRight.png");
+		owner->GetComponent<RenderComponent>()->SetTexture("textures/penguinRight.png");
 	}
 	else if (previousDir.x < 0)
 	{
-		m_pOwner->GetComponent<RenderComponent>()->SetTexture("textures/penguinLeft.png");
+		owner->GetComponent<RenderComponent>()->SetTexture("textures/penguinLeft.png");
 	}
 	else if (previousDir.y < 0)
 	{
-		m_pOwner->GetComponent<RenderComponent>()->SetTexture("textures/penguinUp.png");
+		owner->GetComponent<RenderComponent>()->SetTexture("textures/penguinUp.png");
 	}
 	else if (previousDir.y > 0)
 	{
-		m_pOwner->GetComponent<RenderComponent>()->SetTexture("textures/penguinDown.png");
+		owner->GetComponent<RenderComponent>()->SetTexture("textures/penguinDown.png");
 	}
 }
 

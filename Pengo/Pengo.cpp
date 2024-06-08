@@ -10,7 +10,6 @@
 #include "Minigin.h"
 #include "FPSComponent.h"
 #include "GraphComponent.h"
-#include "LevelManager.h"
 //#include "RotatorComponent.h"
 #include "RenderComponent.h"
 #include "SceneManager.h"
@@ -34,6 +33,8 @@
 #include <fstream>
 #include <sstream>
 
+#include "IceCubeComponent.h"
+
 void load()
 {
 	auto& scene = dae::SceneManager::GetInstance().CreateScene("level1");
@@ -43,7 +44,6 @@ void load()
 	float scale{ 1.5 };
 	const int tileSize{ static_cast<int>(16*scale) };
 	const glm::vec2 offset{ tileSize / 2 + 150, tileSize / 2 + 50 };
-	glm::vec2 gridSize(13, 15); // Size of the grid (20 columns x 15 rows)
 	gameInstance.firstPlayerHealth = 4;
 	gameInstance.secondPlayerHealth = 4;
 	gameInstance.firstPlayerScore = 0;
@@ -78,6 +78,8 @@ void load()
 			{
 				auto iceBlock = scene.CreateGameObject();
 				iceBlock->AddComponent<RenderComponent>("textures/blocks.png", glm::vec2{0, 0}, glm::vec2{9, 4});
+				iceBlock->AddComponent<MovementComponent>(250.f, tileSize, offset);
+				iceBlock->AddComponent<IceCubeComponent>();
 				iceBlock->SetLocalPosition({ x * tileSize + offset.x, y * tileSize + offset.y, 0 });
 				iceBlock->SetLocalScale({ scale, scale, 1.f });
 				continue;
@@ -165,7 +167,7 @@ void load()
 				goSecondPlayer->AddComponent<RenderComponent>("textures/penguinDown.png");
 				goSecondPlayer->AddComponent<MovementComponent>(200.f, tileSize, offset);
 				goSecondPlayer->AddComponent<PlayerComponent>();
-				goSecondPlayer->AddComponent<HealthSubjectComponent>(4)->AddObserver(healthObserver);
+				goSecondPlayer->AddComponent<HealthSubjectComponent>(gameInstance.secondPlayerHealth)->AddObserver(healthObserver);
 				goSecondPlayer->AddComponent<ScoreSubjectComponent>()->AddObserver(scoreObserver);
 				goSecondPlayer->SetLocalPosition({ x * tileSize + offset.x, y * tileSize + offset.y, 0 });
 				goSecondPlayer->SetLocalScale({ scale, scale, 1.f });
