@@ -7,9 +7,10 @@
 #endif
 #endif
 
+#include "Minigin.h"
 #include "FPSComponent.h"
 #include "GraphComponent.h"
-#include "Minigin.h"
+#include "LevelManager.h"
 //#include "RotatorComponent.h"
 #include "RenderComponent.h"
 #include "SceneManager.h"
@@ -27,52 +28,25 @@
 #include "IncreaseScoreCommand.h"
 #include "PlayerComponent.h"
 #include "SoundServiceLocator.h"
+#include "GameState.h"
 
 #include <iostream>
 #include <fstream>
 #include <sstream>
 
-std::vector<std::vector<int>> ReadLevelLayoutFromFile(const std::string& filename)
-{
-	std::ifstream file(filename);
-	std::vector<std::vector<int>> layout;
-	std::string line;
-
-	while (std::getline(file, line))
-	{
-		// Skip comments and empty lines
-		if (!line.empty() && line[0] != '"' && line[0] != ';')
-		{
-			std::istringstream iss(line);
-			std::vector<int> row;
-
-			char valueChar; // Use char to capture non-digit characters
-			while (iss >> valueChar)
-			{
-				if (isdigit(valueChar))
-				{
-					int value = valueChar - '0'; // Convert char to int
-					// Ensure the value is within the valid range
-					if (value >= 0 && value <= 5)
-					{
-						row.push_back(value);
-					}
-				}
-			}
-
-			layout.push_back(row);
-		}
-	}
-
-	return layout;
-}
-
 void load()
 {
 	auto& scene = dae::SceneManager::GetInstance().CreateScene("Programming 4 assignment");
+	dae::SceneManager::GetInstance().SetActiveScene("Programming 4 assignment");
+	auto& gameInstance = daeEngine::GameState::GetInstance();
+
 	float scale{ 1.5 };
 	const int tileSize{ static_cast<int>(16*scale) };
 	const glm::vec2 offset{ tileSize / 2 + 150, tileSize / 2 + 50 };
+	/*gameInstance.firstPlayerHealth = 4;
+	gameInstance.secondPlayerHealth = 4;
+	gameInstance.firstPlayerScore = 0;
+	gameInstance.secondPlayerScore = 0;*/
 
 	//sound
 	int amountOfChannels{ 2 };
@@ -84,10 +58,10 @@ void load()
 	//background
 	auto goBackground = scene.CreateGameObject();
 	goBackground->AddComponent<RenderComponent>("textures/level.png", glm::vec2{0, 0}, glm::vec2{2, 1});
-	goBackground->SetLocalPosition({ offset.x - tileSize/2, offset.y - tileSize/2, 0 });
+	goBackground->SetLocalPosition({ offset.x - static_cast<int>(tileSize/2), offset.y - static_cast<int>(tileSize/2), 0 });
 	goBackground->SetLocalScale({ scale, scale, 1.f });
 
-	std::vector<std::vector<int>> levelLayout = ReadLevelLayoutFromFile("..\\Data\\levels\\level1.txt");
+	std::vector<std::vector<int>> levelLayout = dae::SceneManager::GetInstance().ReadLevelLayoutFromFile("..\\Data\\levels\\level1.txt");
 
 	// Iterate over the layout to create game objects
 	for (size_t y{}; y < levelLayout.size(); ++y)
@@ -171,13 +145,17 @@ void load()
 
 				//Second player display
 				auto goSecondPlayerDisplay = scene.CreateGameObject();
-				goSecondPlayerDisplay->AddComponent<TextComponent>("# Lives: 4", font);
+				std::string healthDisplayText = "# Lives: ";
+				healthDisplayText += std::to_string(gameInstance.secondPlayerHealth);
+				goSecondPlayerDisplay->AddComponent<TextComponent>(healthDisplayText, font);
 				auto healthObserver = goSecondPlayerDisplay->AddComponent<HealthDisplayObserverComponent>();
 				goSecondPlayerDisplay->SetLocalPosition({ 5, 160, 0 });
 
 				//Second player score
 				auto goSecondPlayerScore = scene.CreateGameObject();
-				goSecondPlayerScore->AddComponent<TextComponent>("Score: 0", font);
+				std::string scoreDisplayText = "Score: ";
+				scoreDisplayText += std::to_string(gameInstance.secondPlayerScore);
+				goSecondPlayerScore->AddComponent<TextComponent>(scoreDisplayText, font);
 				auto scoreObserver = goSecondPlayerScore->AddComponent<ScoreDisplayObserverComponent>();
 				goSecondPlayerScore->SetLocalPosition({ 5, 175, 0 });
 
@@ -186,7 +164,7 @@ void load()
 				goSecondPlayer->AddComponent<RenderComponent>("textures/penguinDown.png");
 				goSecondPlayer->AddComponent<MovementComponent>(200.f);
 				goSecondPlayer->AddComponent<PlayerComponent>();
-				goSecondPlayer->AddComponent<HealthSubjectComponent>()->AddObserver(healthObserver);
+				goSecondPlayer->AddComponent<HealthSubjectComponent>(4)->AddObserver(healthObserver);
 				goSecondPlayer->AddComponent<ScoreSubjectComponent>()->AddObserver(scoreObserver);
 				goSecondPlayer->SetLocalPosition({ x * tileSize + offset.x, y * tileSize + offset.y, 0 });
 				goSecondPlayer->SetLocalScale({ scale, scale, 1.f });

@@ -1,9 +1,9 @@
 #include "HealthSubjectComponent.h"
 #include "HealthDisplayObserverComponent.h"
 
-HealthSubjectComponent::HealthSubjectComponent(dae::GameObject* owner)
+HealthSubjectComponent::HealthSubjectComponent(dae::GameObject* owner, int health)
 	: BasicComponent(owner),
-	m_Health(4)
+	m_Health(health)
 {
 	m_pEvent.emplace_back("Damaged");
 	m_pEvent.emplace_back("Died");

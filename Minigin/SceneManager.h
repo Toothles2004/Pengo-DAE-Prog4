@@ -18,9 +18,15 @@ namespace dae
 		void Render();
 		void RenderImgui();
 		void DeleteGameObjects();
+		std::vector<std::vector<int>> ReadLevelLayoutFromFile(const std::string& filename);
+
+		void SetActiveScene(const std::string& name);
+		Scene* GetActiveScene() const { return m_pActiveScene; }
+
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;
 		std::vector<std::shared_ptr<Scene>> m_pScenes;
+		Scene* m_pActiveScene{ nullptr };
 	};
 }
